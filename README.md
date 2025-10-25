@@ -13,7 +13,6 @@ To ensure that we share the same code formatting settings, ensure that Android S
     - Under "All file types", ensure `Kotlin` is checked
 - `Editor` > `General` (scroll to "On Save" section)
   - Check `Remove trailing blank lines at the end of saved files`
-  - Check `Ensure every saved file ends with a line break`
 
 Now, Android Studio is configured to read code formatting settings from `.editorconfig`.
 
