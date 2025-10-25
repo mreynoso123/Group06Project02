@@ -4,6 +4,10 @@ plugins {
   alias(libs.plugins.spotless)
 }
 
+tasks.named("build") {
+  dependsOn("spotlessApply")
+}
+
 spotless {
   java {
     target("**/*.java")
