@@ -1,0 +1,43 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 3
+insert_final_newline = true
+max_line_length = 180
+trim_trailing_whitespace = true
+
+[*.md]
+trim_trailing_whitespace = false
+indent_size = 2
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[*.java]
+ij_java_code_style_defaults = JAVA_OFFICIAL
+ij_java_name_count_to_use_star_import = 2147483647
+ij_java_name_count_to_use_star_import_for_members = 2147483647
+ij_java_keep_blank_lines_before_right_brace = 0
+ij_java_keep_blank_lines_in_code = 1
+ij_java_keep_blank_lines_in_declarations = 1
+ij_java_line_comment_add_space = true
+ij_java_line_comment_add_space_on_reformat = true
+ij_java_line_comment_at_first_column = false
+ij_java_allow_trailing_comma = true
+ij_java_allow_trailing_comma_on_call_site = true
+
+[*.{kt,kts}]
+ij_kotlin_code_style_defaults = KOTLIN_OFFICIAL
+ij_kotlin_name_count_to_use_star_import = 2147483647
+ij_kotlin_name_count_to_use_star_import_for_members = 2147483647
+ij_kotlin_keep_blank_lines_before_right_brace = 0
+ij_kotlin_keep_blank_lines_in_code = 1
+ij_kotlin_keep_blank_lines_in_declarations = 1
+ij_kotlin_line_comment_add_space = true
+ij_kotlin_line_comment_add_space_on_reformat = true
+ij_kotlin_line_comment_at_first_column = false
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
