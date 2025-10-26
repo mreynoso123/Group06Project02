@@ -9,17 +9,34 @@ activity = "1.11.0"
 constraintlayout = "2.2.1"
 spotless = "8.0.0"
 jetbrainsKotlinJvm = "2.0.21"
+springdocOpenapiStarterWebmvcUi = "2.8.13"
+springframeworkBoot = "3.5.7"
+springDependencyManagement = "1.1.7"
+springDocOpenApiGradlePlugin = "1.9.0"
+openApiGenerator = "7.6.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
+spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+springdoc-openapi-starter-webmvc-ui = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdocOpenapiStarterWebmvcUi" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+springframework-boot = { id = "org.springframework.boot", version.ref = "springframeworkBoot" }
+springDependencyManagement = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
+springDocOpenApiGradlePlugin = { id = "org.springdoc.openapi-gradle-plugin", version.ref = "springDocOpenApiGradlePlugin" }
+openApiGenerator = { id = "org.openapi.generator", version.ref = "openApiGenerator" }

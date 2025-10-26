@@ -27,8 +27,7 @@ spotless {
   }
 
   format("misc") {
-    target("*.gradle", ".gitattributes", ".gitignore", ".editorconfig", "*.properties")
-
+    target("**/*.gradle", "**/.gitattributes", "**/.gitignore", "**/.editorconfig", "**/*.properties")
     trimTrailingWhitespace()
     endWithNewline()
   }
