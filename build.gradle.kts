@@ -2,6 +2,7 @@
 plugins {
   alias(libs.plugins.android.application) apply false
   alias(libs.plugins.spotless)
+  alias(libs.plugins.jetbrains.kotlin.jvm) apply false
 }
 
 tasks.named("build") {
