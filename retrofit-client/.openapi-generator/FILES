@@ -2,6 +2,7 @@ README.md
 build.gradle
 docs/Family.md
 docs/MyServerApi.md
+docs/User.md
 gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
 gradlew
@@ -9,7 +10,9 @@ gradlew.bat
 settings.gradle
 src/main/kotlin/example/client/api/MyServerApi.kt
 src/main/kotlin/example/client/model/Family.kt
+src/main/kotlin/example/client/model/User.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt
 src/main/kotlin/org/openapitools/client/infrastructure/CollectionFormats.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ResponseExt.kt
 src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt
+src/test/kotlin/example/client/model/UserTest.kt

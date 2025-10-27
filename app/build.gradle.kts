@@ -84,7 +84,7 @@ android {
 }
 
 tasks.named("build") {
-  dependsOn(":my-fork:build")
+  dependsOn(":retrofit-client:build")
 }
 
 dependencies {

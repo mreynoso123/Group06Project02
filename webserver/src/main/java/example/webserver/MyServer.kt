@@ -23,43 +23,92 @@ val mapper: ObjectMapper = ObjectMapper()
 @RestController
 class MyServer {
   @PostMapping("/family/new-family")
-  fun familyNew(
-    @RequestParam(value = "family_id") id: Int,
-    @RequestParam(value = "family_password") password: String,
+  fun newFamily(
     @RequestParam(value = "family_name") name: String,
+    @RequestParam(value = "family_password") password: String,
+    @RequestParam(value = "family_name_pretty") namePretty: String,
   ): Family? {
+    if (name.isEmpty() || name[0].isDigit() || !name.all { it.isLetterOrDigit() || it in "-_" }) {
+      return null
+    }
+
     val familiesJson: FamiliesJson = mapper.readValue(File(FamiliesJsonFile), FamiliesJsonInstance.javaClass)
 
     for (family in familiesJson.families) {
-      if (family.id == id && family.password == password) {
+      if (family.name == name && family.password == password) {
         return null
       }
     }
 
-    val family = Family(id, password, name)
+    val family = Family(name, password, namePretty, mutableListOf())
     familiesJson.families.add(family)
     return family
   }
 
-  @PostMapping("/family/change-family")
-  fun familyChange(
-    @RequestParam(value = "family_id") id: Int,
+  @PostMapping("/family/update-family")
+  fun updateFamily(
+    @RequestParam(value = "family_name") name: String,
     @RequestParam(value = "family_password") password: String,
-    @RequestParam(value = "new_family_password") new_family_password: String?,
-    @RequestParam(value = "new_family_name") new_family_name: String?,
+    @RequestParam(value = "new_family_password") newPassword: String?,
+    @RequestParam(value = "new_family_name_pretty") newNamePretty: String?,
   ): Family? {
     val familiesJson: FamiliesJson = mapper.readValue(File(FamiliesJsonFile), FamiliesJsonInstance.javaClass)
 
     for (family in familiesJson.families) {
-      if (family.id == id && family.password == password) {
-        if (new_family_password != null) {
-          family.password = new_family_password
+      if (family.name == name && family.password == password) {
+        if (newPassword != null) {
+          family.password = newPassword
         }
 
-        if (new_family_name != null) {
-          family.name = new_family_name
+        if (newNamePretty != null) {
+          family.name = newNamePretty
         }
 
+        return family
+      }
+    }
+
+    return null
+  }
+
+  @PostMapping("/family/add-user")
+  fun addFamilyUser(
+    @RequestParam(value = "family_name") name: String,
+    @RequestParam(value = "family_password") password: String,
+    @RequestParam(value = "new_user_uuid") newUserUuid: String,
+  ): Family? {
+    val familiesJson: FamiliesJson = mapper.readValue(File(FamiliesJsonFile), FamiliesJsonInstance.javaClass)
+
+    for (family in familiesJson.families) {
+      if (family.name == name && family.password == password) {
+        if (family.users.contains(newUserUuid)) {
+          return null
+        }
+
+        family.users.add(newUserUuid)
+        return family
+      }
+    }
+
+    return null
+  }
+
+  @PostMapping("/family/remove-user")
+  fun removeFamilyUser(
+    @RequestParam(value = "family_name") name: String,
+    @RequestParam(value = "family_password") password: String,
+    @RequestParam(value = "removed_user_uuid") removedUserUuid: String,
+  ): Family? {
+    val familiesJson: FamiliesJson = mapper.readValue(File(FamiliesJsonFile), FamiliesJsonInstance.javaClass)
+
+    for (family in familiesJson.families) {
+      if (family.name == name && family.password == password) {
+        val idx = family.users.indexOf(removedUserUuid)
+        if (idx == -1) {
+          return null
+        }
+
+        family.users.remove(removedUserUuid)
         return family
       }
     }
@@ -68,14 +117,14 @@ class MyServer {
   }
 
   @PostMapping("/family/get-family")
-  fun familyGet(
-    @RequestParam(value = "family_id") id: Int,
+  fun getFamily(
+    @RequestParam(value = "family_name") name: String,
     @RequestParam(value = "family_password") password: String,
   ): Family? {
     val familiesJson: FamiliesJson = mapper.readValue(File(FamiliesJsonFile), FamiliesJsonInstance.javaClass)
 
     for (family in familiesJson.families) {
-      if (family.id == id && family.password == password) {
+      if (family.name == name && family.password == password) {
         return family
       }
     }
@@ -84,44 +133,62 @@ class MyServer {
   }
 
   @PostMapping("/user/new-user")
-  fun userNew(
-    @RequestParam(value = "family_id") id: Int,
-    @RequestParam(value = "family_password") password: String,
-    @RequestParam(value = "family_name") name: String,
-  ): Family? {
-    val familiesJson: FamiliesJson = mapper.readValue(File(FamiliesJsonFile), FamiliesJsonInstance.javaClass)
+  fun newUser(
+    @RequestParam(value = "user_uuid") uuid: String,
+    @RequestParam(value = "user_password") password: String,
+    @RequestParam(value = "user_name_pretty") namePretty: String,
+    @RequestParam(value = "user_email") email: String?,
+    @RequestParam(value = "user_type") type: Int,
+    @RequestParam(value = "family_name") familyName: String,
+  ): User? {
+    val usersJson: UsersJson = mapper.readValue(File(UsersJsonFile), UsersJsonInstance.javaClass)
 
-    for (family in familiesJson.families) {
-      if (family.id == id && family.password == password) {
+    for (user in usersJson.users) {
+      if (user.uuid == uuid && user.password == password) {
         return null
       }
     }
 
-    val family = Family(id, password, name)
-    familiesJson.families.add(family)
-    return family
+    val user = User(uuid, password, namePretty, type, familyName, email)
+    usersJson.users.add(user)
+    return user
   }
 
-  @PostMapping("/user/change-user")
-  fun userChange(
-    @RequestParam(value = "family_id") id: Int,
-    @RequestParam(value = "family_password") password: String,
-    @RequestParam(value = "new_family_password") new_family_password: String?,
-    @RequestParam(value = "new_family_name") new_family_name: String?,
-  ): Family? {
-    val familiesJson: FamiliesJson = mapper.readValue(File(FamiliesJsonFile), FamiliesJsonInstance.javaClass)
+  @PostMapping("/user/update-user")
+  fun updateUser(
+    @RequestParam(value = "user_name") name: String,
+    @RequestParam(value = "user_password") password: String,
+    @RequestParam(value = "new_user_password") newPassword: String?,
+    @RequestParam(value = "new_user_name_pretty") newNamePretty: String?,
+    @RequestParam(value = "new_user_type") newType: Int?,
+    @RequestParam(value = "new_family_name") newFamilyName: String?,
+    @RequestParam(value = "new_user_email") newEmail: String?,
+  ): User? {
+    val usersJson: UsersJson = mapper.readValue(File(UsersJsonFile), UsersJsonInstance.javaClass)
 
-    for (family in familiesJson.families) {
-      if (family.id == id && family.password == password) {
-        if (new_family_password != null) {
-          family.password = new_family_password
+    for (user in usersJson.users) {
+      if (user.uuid == name && user.password == password) {
+        if (newPassword != null) {
+          user.password = newPassword
         }
 
-        if (new_family_name != null) {
-          family.name = new_family_name
+        if (newNamePretty != null) {
+          user.namePretty = newNamePretty
         }
 
-        return family
+        if (newType != null) {
+          user.type = newType
+        }
+
+        if (newFamilyName != null) {
+          user.familyName = newFamilyName
+        }
+
+        if (newEmail != null) {
+          user.email = newEmail
+        }
+
+        return user
       }
     }
 
@@ -129,15 +196,15 @@ class MyServer {
   }
 
   @PostMapping("/user/get-user")
-  fun userGet(
-    @RequestParam(value = "family_id") id: Int,
-    @RequestParam(value = "family_password") password: String,
-  ): Family? {
-    val familiesJson: FamiliesJson = mapper.readValue(File(FamiliesJsonFile), FamiliesJsonInstance.javaClass)
+  fun getUser(
+    @RequestParam(value = "user_name") name: String,
+    @RequestParam(value = "user_password") password: String,
+  ): User? {
+    val usersJson: UsersJson = mapper.readValue(File(UsersJsonFile), UsersJsonInstance.javaClass)
 
-    for (family in familiesJson.families) {
-      if (family.id == id && family.password == password) {
-        return family
+    for (user in usersJson.users) {
+      if (user.uuid == name && user.password == password) {
+        return user
       }
     }
 

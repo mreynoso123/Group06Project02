@@ -45,18 +45,21 @@ All URIs are relative to *http://localhost:8080*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*MyServerApi* | [**familyChange**](docs/MyServerApi.md#familychange) | **POST** family/change-family | 
-*MyServerApi* | [**familyGet**](docs/MyServerApi.md#familyget) | **POST** family/get-family | 
-*MyServerApi* | [**familyNew**](docs/MyServerApi.md#familynew) | **POST** family/new-family | 
-*MyServerApi* | [**userChange**](docs/MyServerApi.md#userchange) | **POST** user/change-user | 
-*MyServerApi* | [**userGet**](docs/MyServerApi.md#userget) | **POST** user/get-user | 
-*MyServerApi* | [**userNew**](docs/MyServerApi.md#usernew) | **POST** user/new-user | 
+*MyServerApi* | [**addFamilyUser**](docs/MyServerApi.md#addfamilyuser) | **POST** family/add-user | 
+*MyServerApi* | [**getFamily**](docs/MyServerApi.md#getfamily) | **POST** family/get-family | 
+*MyServerApi* | [**getUser**](docs/MyServerApi.md#getuser) | **POST** user/get-user | 
+*MyServerApi* | [**newFamily**](docs/MyServerApi.md#newfamily) | **POST** family/new-family | 
+*MyServerApi* | [**newUser**](docs/MyServerApi.md#newuser) | **POST** user/new-user | 
+*MyServerApi* | [**removeFamilyUser**](docs/MyServerApi.md#removefamilyuser) | **POST** family/remove-user | 
+*MyServerApi* | [**updateFamily**](docs/MyServerApi.md#updatefamily) | **POST** family/update-family | 
+*MyServerApi* | [**updateUser**](docs/MyServerApi.md#updateuser) | **POST** user/update-user | 
 
 
 <a id="documentation-for-models"></a>
 ## Documentation for Models
 
  - [example.client.model.Family](docs/Family.md)
+ - [example.client.model.User](docs/User.md)
 
 
 <a id="documentation-for-authorization"></a>

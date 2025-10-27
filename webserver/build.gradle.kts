@@ -37,7 +37,7 @@ tasks.withType<Test> {
 }
 
 val openApiSpec = layout.buildDirectory.file("openapi.json")
-val retrofitClientDir = layout.projectDirectory.dir("../my-fork/retrofit-client")
+val retrofitClientDir = layout.projectDirectory.dir("../retrofit-client")
 
 
 tasks.register("buildAndUseClientFull") {

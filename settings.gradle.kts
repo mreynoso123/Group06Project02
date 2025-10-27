@@ -42,5 +42,4 @@ dependencyResolutionManagement {
 rootProject.name = "Group06Project02"
 include(":app")
 include(":webserver")
-// includeBuild("./webserver/build/generated/retrofit-client") // TODO
-includeBuild("my-fork")
+includeBuild("retrofit-client")

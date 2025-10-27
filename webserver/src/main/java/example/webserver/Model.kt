@@ -5,9 +5,10 @@ data class FamiliesJson(
 )
 
 data class Family(
-  val id: Int,
-  var password: String,
   var name: String,
+  var password: String,
+  var namePretty: String,
+  var users: MutableList<String>,
 )
 
 data class UsersJson(
@@ -15,15 +16,16 @@ data class UsersJson(
 )
 
 data class User(
-  val user_id: Int,
-  val family_id: Int,
-  val user_email: String,
-  val user_password: String,
-  val user_name: String,
-  val user_type: Int, // TODO: "enum"
+  var uuid: String,
+  var password: String,
+  var namePretty: String,
+  var type: Int, // TODO: "enum"
+  var familyName: String,
+  var email: String?,
 )
 
 data class Tasks(
-  val id: Int,
-  val title: String,
+  var uuid: String,
+  var id: Int,
+  var title: String,
 )

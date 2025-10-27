@@ -21,22 +21,26 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * 
  *
- * @param id 
- * @param password 
  * @param name 
+ * @param password 
+ * @param namePretty 
+ * @param users 
  */
 
 
 data class Family (
 
-    @field:JsonProperty("id")
-    val id: kotlin.Int? = null,
+    @field:JsonProperty("name")
+    val name: kotlin.String? = null,
 
     @field:JsonProperty("password")
     val password: kotlin.String? = null,
 
-    @field:JsonProperty("name")
-    val name: kotlin.String? = null
+    @field:JsonProperty("namePretty")
+    val namePretty: kotlin.String? = null,
+
+    @field:JsonProperty("users")
+    val users: kotlin.collections.List<kotlin.String>? = null
 
 )
 
