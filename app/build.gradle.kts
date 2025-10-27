@@ -93,7 +93,6 @@ dependencies {
   implementation(libs.activity)
   implementation(libs.constraintlayout)
   implementation("com.squareup.retrofit2:retrofit:2.10.0")
-  // implementation(project(":retrofit-client")) // TODO
   implementation("example.openapitools:retrofit-client:1.0.0")
   testImplementation(libs.junit)
   androidTestImplementation(libs.ext.junit)

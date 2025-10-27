@@ -17,9 +17,9 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     var apiClient = new ApiClient();
     var service = apiClient.createService(MyServerApi.class);
-    var response = service.familyNew(10, "hunter123", "Edwin's Family");
+    var response = service.newFamily("edwin-family", "hunter123", "Edwin's Family");
     System.out.println(response);
-    
+
     super.onCreate(savedInstanceState);
     EdgeToEdge.enable(this);
     setContentView(R.layout.activity_main);
