@@ -2,6 +2,7 @@
 plugins {
   alias(libs.plugins.android.application) apply false
   alias(libs.plugins.spotless)
+  alias(libs.plugins.jetbrains.kotlin.jvm) apply false
 }
 
 tasks.named("build") {
@@ -26,8 +27,7 @@ spotless {
   }
 
   format("misc") {
-    target("*.gradle", ".gitattributes", ".gitignore", ".editorconfig", "*.properties")
-
+    target("**/*.gradle", "**/.gitattributes", "**/.gitignore", "**/.editorconfig", "**/*.properties")
     trimTrailingWhitespace()
     endWithNewline()
   }

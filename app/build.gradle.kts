@@ -16,13 +16,13 @@
  * - For greatest support, best to stick with Gradle at least Gradle 8.5
  */
 plugins {
-	/**
-	 * Specify the addition of the "android-application" plugin. The `alias()` uses the "Version
-	 * Catalog" feature, which allows us to specify dependencies using "property access", rather then
-	 * a string literal. This allows for showing better errors if a typo in a dependency is made. To
-	 * view the version catalog, see the file at `./gradle/libs.versions.toml`.
-	 */
-	alias(libs.plugins.android.application)
+  /**
+   * Specify the addition of the "android-application" plugin. The `alias()` uses the "Version
+   * Catalog" feature, which allows us to specify dependencies using "property access", rather then
+   * a string literal. This allows for showing better errors if a typo in a dependency is made. To
+   * view the version catalog, see the file at `./gradle/libs.versions.toml`.
+   */
+  alias(libs.plugins.android.application)
 }
 
 /**
@@ -31,64 +31,70 @@ plugins {
  * for both compilation and execution. See: https://docs.gradle.org/current/userguide/toolchains.html#sec:using-java-toolchains
  */
 java {
-	toolchain {
-		/**
-		 * Set the toolchain version to Java 11.
-		 *
-		 * Some Gradle configurations have "sourceCompatibility" and "targetCompatibility" options. This
-		 * option is similar using "11" instead of "JavaVersion.VERSION_11". This is preferred way to
-		 * set the Java version, since the other two options are deprecated and not recommended.
-		 * See: https://developer.android.com/build/jdks
-		 * See: https://docs.gradle.org/current/userguide/toolchains.html#sec:source-target-toolchain
-		 */
-		languageVersion = JavaLanguageVersion.of(11)
+  toolchain {
+    /**
+     * Set the toolchain version to Java 11.
+     *
+     * Some Gradle configurations have "sourceCompatibility" and "targetCompatibility" options. This
+     * option is similar using "11" instead of "JavaVersion.VERSION_11". This is preferred way to
+     * set the Java version, since the other two options are deprecated and not recommended.
+     * See: https://developer.android.com/build/jdks
+     * See: https://docs.gradle.org/current/userguide/toolchains.html#sec:source-target-toolchain
+     */
+    languageVersion = JavaLanguageVersion.of(11)
 
-		/**
-		 * By default, Android Studio use the JetBrains Runtime (JBR). It has specific "optimizations"
-		 * for Android Studio. Explicitly set the JVM vendor to JetBrains because when building the
-		 * Android project outside of Android Studio (i.e. an external terminal), the runtime may
-		 * differ. So by setting it explicitly, we avoid some situations where there are inconsistencies
-		 * across builds. See: https://developer.android.com/build/jdks
-		 *
-		 * Also, when Gradle chooses between JVM vendors, it prefers some over others. So by setting
-		 * "JetBrains" it avoids other cases of inconsistencies. See:
-		 * https://docs.gradle.org/current/userguide/toolchains.html#sec:precedence
-		 */
-		vendor = JvmVendorSpec.JETBRAINS
-	}
+    /**
+     * By default, Android Studio use the JetBrains Runtime (JBR). It has specific "optimizations"
+     * for Android Studio. Explicitly set the JVM vendor to JetBrains because when building the
+     * Android project outside of Android Studio (i.e. an external terminal), the runtime may
+     * differ. So by setting it explicitly, we avoid some situations where there are inconsistencies
+     * across builds. See: https://developer.android.com/build/jdks
+     *
+     * Also, when Gradle chooses between JVM vendors, it prefers some over others. So by setting
+     * "JetBrains" it avoids other cases of inconsistencies. See:
+     * https://docs.gradle.org/current/userguide/toolchains.html#sec:precedence
+     */
+    vendor = JvmVendorSpec.JETBRAINS
+  }
 }
 
 android {
-	namespace = "com.mareyn.group06project02"
-	compileSdk = 36
+  namespace = "com.mareyn.group06project02"
+  compileSdk = 36
 
-	defaultConfig {
-		applicationId = "com.mareyn.group06project02"
-		minSdk = 28
-		targetSdk = 36
-		versionCode = 1
-		versionName = "1.0"
+  defaultConfig {
+    applicationId = "com.mareyn.group06project02"
+    minSdk = 28
+    targetSdk = 36
+    versionCode = 1
+    versionName = "1.0"
 
-		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-	}
+    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+  }
 
-	buildTypes {
-		release {
-			isMinifyEnabled = false
-			proguardFiles(
-				getDefaultProguardFile("proguard-android-optimize.txt"),
-				"proguard-rules.pro"
-			)
-		}
-	}
+  buildTypes {
+    release {
+      isMinifyEnabled = false
+      proguardFiles(
+        getDefaultProguardFile("proguard-android-optimize.txt"),
+        "proguard-rules.pro",
+      )
+    }
+  }
+}
+
+tasks.named("build") {
+  dependsOn(":retrofit-client:build")
 }
 
 dependencies {
-	implementation(libs.appcompat)
-	implementation(libs.material)
-	implementation(libs.activity)
-	implementation(libs.constraintlayout)
-	testImplementation(libs.junit)
-	androidTestImplementation(libs.ext.junit)
-	androidTestImplementation(libs.espresso.core)
+  implementation(libs.appcompat)
+  implementation(libs.material)
+  implementation(libs.activity)
+  implementation(libs.constraintlayout)
+  implementation("com.squareup.retrofit2:retrofit:2.10.0")
+  implementation("example.openapitools:retrofit-client:1.0.0")
+  testImplementation(libs.junit)
+  androidTestImplementation(libs.ext.junit)
+  androidTestImplementation(libs.espresso.core)
 }

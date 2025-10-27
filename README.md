@@ -27,3 +27,18 @@ Now, Android Studio is configured to read code formatting settings from `.editor
 ```shell
 ./gradlew spotlessInstallGitPrePushHook
 ```
+
+## Generation
+
+Generate OpenAPI specification documents for later consumption.
+
+```shell
+ ./gradlew generateOpenApiDocs
+```
+
+Use OpenAPI specification documents to generate Kotlin retrofit2 OpenAPI client.
+
+```shell
+./gradlew openApiGenerate
+./gradlew buildAndUseClientFull # TODO
+```

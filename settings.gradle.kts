@@ -41,3 +41,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Group06Project02"
 include(":app")
+include(":webserver")
+includeBuild("retrofit-client")
