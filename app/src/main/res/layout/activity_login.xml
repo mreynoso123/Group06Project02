@@ -11,26 +11,14 @@
     android:id="@+id/titleLoginTextView"
     android:layout_width="match_parent"
     android:layout_height="75dp"
-    android:layout_margin="16dp"
+    android:layout_margin="50dp"
     android:layout_marginTop="100dp"
     android:gravity="center"
-    android:text="ChoreScore"
+    android:text="@string/chorescore"
     android:textSize="36sp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
-
-  <!--  <TextView-->
-  <!--    android:id="@+id/accountType"-->
-  <!--    android:layout_width="match_parent"-->
-  <!--    android:layout_height="30dp"-->
-  <!--    android:layout_margin="16dp"-->
-  <!--    android:layout_marginTop="100dp"-->
-  <!--    android:text="Account Type: "-->
-  <!--    android:textSize="18sp"-->
-  <!--    app:layout_constraintEnd_toEndOf="parent"-->
-  <!--    app:layout_constraintStart_toStartOf="parent"-->
-  <!--    app:layout_constraintTop_toBottomOf="@+id/titleLoginTextView" />-->
 
   <EditText
     android:id="@+id/userNameLoginEditText"
@@ -39,7 +27,7 @@
     android:layout_margin="16dp"
     android:autofillHints="Please enter username"
     android:gravity="center"
-    android:hint="Username"
+    android:hint="@string/username"
     android:inputType="text"
     android:textSize="24sp"
     app:layout_constraintEnd_toEndOf="parent"
@@ -53,7 +41,7 @@
     android:layout_margin="16dp"
     android:autofillHints="Please enter password"
     android:gravity="center"
-    android:hint="Password"
+    android:hint="@string/password"
     android:inputType="textPassword"
     android:textSize="24sp"
     app:layout_constraintEnd_toEndOf="parent"
@@ -64,19 +52,51 @@
     android:id="@+id/loginButton"
     android:layout_width="150dp"
     android:layout_height="70dp"
-    android:layout_margin="16dp"
+    android:layout_margin="32dp"
     android:text="@string/login"
     android:textSize="24sp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/passwordLoginEditText" />
 
+
+  <TextView
+    android:id="@+id/createAccount"
+    android:layout_width="100dp"
+    android:layout_height="50dp"
+    android:layout_margin="0dp"
+    android:gravity="center"
+    android:text="@string/create_account"
+    android:textColor="@android:color/holo_blue_dark"
+    android:textSize="12sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.05"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/loginButton" />
+
+  <TextView
+    android:id="@+id/forgotPassword"
+    android:layout_width="100dp"
+    android:layout_height="50dp"
+    android:layout_margin="0dp"
+    android:gravity="center"
+    android:text="@string/forgot_password"
+    android:textColor="@android:color/holo_blue_dark"
+    android:textSize="12sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.95"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/loginButton" />
+
   <Spinner
     android:id="@+id/spinner"
-    android:layout_width="409dp"
+    android:layout_width="375dp"
     android:layout_height="wrap_content"
-    tools:layout_editor_absoluteX="1dp"
-    tools:layout_editor_absoluteY="477dp" />
+    android:layout_margin="20dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/createAccount"
+    tools:layout_editor_absoluteX="10dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
