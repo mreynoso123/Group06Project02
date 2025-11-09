@@ -7,6 +7,8 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mareyn.group06project02.databinding.ActivityLoginBinding;
+
 public class LoginActivity extends AppCompatActivity {
 
   private ActivityLoginBinding binding;
@@ -17,13 +19,13 @@ public class LoginActivity extends AppCompatActivity {
     binding = ActivityLoginBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
 
-    binding.loginButton.setOnClickListener(new View.OnClickListener()){
+    binding.loginButton.setOnClickListener(new View.OnClickListener() {
       @Override
-        public void onClick(View v){
+      public void onClick(View v) {
         Intent intent = MainActivity.mainActivityIntentFactory(getApplicationContext(), 0);
         startActivity(intent);
       }
-    }
+    });
   }
 
   static Intent loginIntentFactory(Context context) {

@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mareyn.group06project02.databinding.ActivityMainBinding;
+
 import org.openapitools.client.infrastructure.ApiClient;
 
 import example.client.api.MyServerApi;
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.activity_main);
+    setContentView(binding.getRoot());
 
     loginUser();
     if (loggedInUserId == -1) {
