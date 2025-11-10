@@ -24,6 +24,8 @@ public class LoginActivity extends AppCompatActivity {
     binding.loginButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        // Use this one when the database is implemented
+        // startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getId()));
         Intent intent = MainActivity.mainActivityIntentFactory(getApplicationContext(), 0);
         startActivity(intent);
       }
@@ -41,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
-        getIntent().putExtra()
+        getIntent().putExtra();
         startActivity(ForgotPasswordActivity.forgotPasswordIntentFactory(getApplicationContext()));
       }
     });
@@ -54,6 +56,24 @@ public class LoginActivity extends AppCompatActivity {
       toastMaker("Username should not be blank");
       return;
     }
+
+    // below is used for the GymLog database
+    // LiveData<User> userObserver = repository.getUserByUserName(username);
+    // userObserver.observe(this, user -> {
+    //   if (user != null) {
+    //     String password = binding.passwordLoginEditText.getText().toString();
+    //     if (password.equals(user.getPassword())) {
+    //       startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getId()));
+    //     } else {
+    //       toastMaker("Invalid password");
+    //       binding.passwordLoginEditText.setSelection(0);
+    //     }
+    //   } else {
+    //     toastMaker(String.format("%s is not a valid username. ", username));
+    //     binding.userNameLoginEditText.setSelection(0);
+    //   }
+    // });
+
   }
 
   private void toastMaker(String message) {

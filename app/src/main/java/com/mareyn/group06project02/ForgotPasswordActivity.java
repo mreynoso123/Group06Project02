@@ -80,13 +80,16 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     public boolean
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.logout_menu, menu);
-        return true;
-    }
 
+  // onCreateOptionsMenu initializes and inflates the menu resource (defined in an XML file) into the provided Menu object.
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.logout_menu, menu);
+    return true;
+  }
+  // and onPrepareOptionsMenu are to display the "Go back" link to return to the login page
     @Override
     public boolean onPrepareOptionsMenu(Menu menu){
         MenuItem item = menu.findItem(R.id.logoutMenuItem);
@@ -99,7 +102,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 return true;
             }
         });
-
+      return true;
     }
 
 
