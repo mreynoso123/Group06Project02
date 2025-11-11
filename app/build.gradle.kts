@@ -41,7 +41,7 @@ java {
      * See: https://developer.android.com/build/jdks
      * See: https://docs.gradle.org/current/userguide/toolchains.html#sec:source-target-toolchain
      */
-    languageVersion = JavaLanguageVersion.of(11)
+    languageVersion = JavaLanguageVersion.of(17)
 
     /**
      * By default, Android Studio use the JetBrains Runtime (JBR). It has specific "optimizations"
@@ -81,6 +81,7 @@ android {
       )
     }
   }
+
   buildFeatures {
     viewBinding = true
   }

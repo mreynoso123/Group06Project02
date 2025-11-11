@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     System.out.println(response);
 
     super.onCreate(savedInstanceState);
-
+    binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
 
     loginUser();

@@ -1,11 +1,10 @@
 package com.mareyn.group06project02.database.entities;
 
-import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
-@Entity(tableName = GymLogDatabase.USER_TABLE)
+//@Entity(tableName = GymLogDatabase.USER_TABLE)
 public class User {
   @PrimaryKey(autoGenerate = true)
   private int id;
