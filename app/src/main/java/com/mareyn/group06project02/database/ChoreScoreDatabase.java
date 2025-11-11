@@ -1,4 +1,4 @@
-package com.mareyn.group06project02.Database;
+package com.mareyn.group06project02.database;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,7 +8,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.mareyn.group06project02.Database.entities.User;
+import com.mareyn.group06project02.database.entities.User;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

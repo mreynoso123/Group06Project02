@@ -1,9 +1,9 @@
-package com.mareyn.group06project02.Database;
+package com.mareyn.group06project02.database;
 
 import android.app.Application;
 import android.util.Log;
 
-import com.mareyn.group06project02.Database.entities.User;
+import com.mareyn.group06project02.database.entities.User;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;

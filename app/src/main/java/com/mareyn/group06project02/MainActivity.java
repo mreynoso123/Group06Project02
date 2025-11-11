@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mareyn.group06project02.Database.ChoreScoreRepository;
+import com.mareyn.group06project02.database.ChoreScoreRepository;
 import com.mareyn.group06project02.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {

@@ -1,9 +1,9 @@
-package com.mareyn.group06project02.Database.entities;
+package com.mareyn.group06project02.database.entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.mareyn.group06project02.Database.ChoreScoreDatabase;
+import com.mareyn.group06project02.database.ChoreScoreDatabase;
 
 import java.sql.Date;
 import java.util.Objects;

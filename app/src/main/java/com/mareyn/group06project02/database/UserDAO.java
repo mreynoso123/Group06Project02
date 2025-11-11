@@ -1,10 +1,10 @@
-package com.mareyn.group06project02.Database;
+package com.mareyn.group06project02.database;
 
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.mareyn.group06project02.Database.entities.User;
+import com.mareyn.group06project02.database.entities.User;
 
 import java.util.List;
 
