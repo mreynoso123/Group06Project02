@@ -10,5 +10,6 @@
   <string name="email_address">Email Address</string>
   <string name="submit">Submit</string>
   <string name="reset_password">Reset Password</string>
+  <string name="admin">Admin</string>
 
 </resources>

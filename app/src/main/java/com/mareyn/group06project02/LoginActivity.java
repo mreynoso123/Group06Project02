@@ -1,9 +1,12 @@
 package com.mareyn.group06project02;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,12 +16,18 @@ import com.mareyn.group06project02.databinding.ActivityLoginBinding;
 public class LoginActivity extends AppCompatActivity {
 
   private ActivityLoginBinding binding;
+  private EditText hiddenEditText;
+  @SuppressLint("UseSwitchCompatOrMaterialCode")
+  private Switch hiddenSwitch;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     binding = ActivityLoginBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
+
+    hiddenEditText = findViewById(R.id.hiddenEmailAddressEditText);
+    hiddenSwitch = findViewById(R.id.adminSwitch);
 
     // this is for the login button
     binding.loginButton.setOnClickListener(new View.OnClickListener() {
@@ -35,6 +44,13 @@ public class LoginActivity extends AppCompatActivity {
     binding.createAccount.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        if (hiddenEditText.getVisibility() == View.GONE && hiddenSwitch.getVisibility() == View.GONE) {
+          hiddenEditText.setVisibility(View.VISIBLE);
+          hiddenSwitch.setVisibility(View.VISIBLE);
+        } else {
+          hiddenEditText.setVisibility(View.GONE);
+          hiddenSwitch.setVisibility(View.GONE);
+        }
       }
     });
 
