@@ -6,14 +6,14 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mareyn.group06project02.database.ChoreScoreRepository;
 import com.mareyn.group06project02.databinding.ActivityMainBinding;
 
-import org.openapitools.client.infrastructure.ApiClient;
-
-import example.client.api.MyServerApi;
-
 public class MainActivity extends AppCompatActivity {
+  public static final String TAG = "CHORE_SCORE";
+
   private ActivityMainBinding binding;
+  private ChoreScoreRepository repository;
   // MAIN_ACTIVITY_USER_ID is a key to retrieve a value to be a user id
   private static final String MAIN_ACTIVITY_USER_ID = "com.mareyn.group06project02.MAIN_ACTIVITY_USER_ID";
   private static final int LOGGED_OUTt = -1;
@@ -21,14 +21,15 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    var apiClient = new ApiClient();
-    var service = apiClient.createService(MyServerApi.class);
-    var response = service.newFamily("edwin-family", "hunter123", "Edwin's Family");
-    System.out.println(response);
+    // var apiClient = new ApiClient();
+    // var service = apiClient.createService(MyServerApi.class);
+    // var response = service.newFamily("edwin-family", "hunter123", "Edwin's Family");
+    // System.out.println(response);
 
     super.onCreate(savedInstanceState);
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
+    repository = ChoreScoreRepository.getRepository(getApplication());
 
     loginUser();
     if (loggedInUserId == -1) {

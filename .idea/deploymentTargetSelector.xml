@@ -9,6 +9,7 @@
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="ForgotPasswordActivityUnitTest">
+      <SelectionState runConfigName="Android App">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
