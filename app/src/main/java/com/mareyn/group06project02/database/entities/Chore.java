@@ -5,7 +5,6 @@ import androidx.room.PrimaryKey;
 
 import com.mareyn.group06project02.database.ChoreScoreDatabase;
 
-import java.sql.Date;
 import java.util.Objects;
 
 @Entity(tableName = ChoreScoreDatabase.CHORE_TABLE)
@@ -13,7 +12,7 @@ public class Chore {
   @PrimaryKey(autoGenerate = true)
   private int choreId;
   private int userId;
-  private Date dueDate;
+  private String dueDate;
   private String title;
   private String description;
   private int points;
@@ -60,11 +59,11 @@ public class Chore {
     this.userId = userId;
   }
 
-  public Date getDueDate() {
+  public String getDueDate() {
     return dueDate;
   }
 
-  public void setDueDate(Date dueDate) {
+  public void setDueDate(String dueDate) {
     this.dueDate = dueDate;
   }
 

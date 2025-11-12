@@ -17,15 +17,19 @@ public class User {
   private String password;
   private int userType;
 
-  public User(int familyId, String username, String password, int userType) {
+  // public User(int familyId, String username, String password, int userType) {
+  //   this.familyId = familyId;
+  //   this.username = username;
+  //   this.password = password;
+  //   this.userType = userType;
+  // }
+
+  public User(int familyId, String username, String password, int userType, String email) {
+    // this(familyId, username, password, userType);
     this.familyId = familyId;
     this.username = username;
     this.password = password;
     this.userType = userType;
-  }
-
-  public User(int familyId, String username, String password, int userType, String email) {
-    this(familyId, username, password, userType);
     this.email = email;
   }
 
