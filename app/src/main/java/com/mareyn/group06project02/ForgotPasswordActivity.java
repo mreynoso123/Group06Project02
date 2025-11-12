@@ -67,6 +67,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     // }
   }
 
+  // Helper method for logic testing
+  static boolean isUsernameAndEmailEmpty(String username, String email) {
+    return username.isEmpty() && email.isEmpty();
+  }
+
   private void toastMaker(String message) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
   }

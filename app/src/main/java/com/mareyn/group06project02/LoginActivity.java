@@ -58,9 +58,9 @@ public class LoginActivity extends AppCompatActivity {
     binding.forgotPassword.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+        Intent intent = ForgotPasswordActivity.forgotPasswordIntentFactory(getApplicationContext());
         // getIntent().putExtra();
-        startActivity(ForgotPasswordActivity.forgotPasswordIntentFactory(getApplicationContext()));
+        startActivity(intent);
       }
     });
   }
@@ -70,7 +70,6 @@ public class LoginActivity extends AppCompatActivity {
 
     if (username.isEmpty()) {
       toastMaker("Username should not be blank");
-      return;
     }
 
     // below is used for the GymLog database
