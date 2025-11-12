@@ -41,7 +41,7 @@ java {
      * See: https://developer.android.com/build/jdks
      * See: https://docs.gradle.org/current/userguide/toolchains.html#sec:source-target-toolchain
      */
-    languageVersion = JavaLanguageVersion.of(11)
+    languageVersion = JavaLanguageVersion.of(17)
 
     /**
      * By default, Android Studio use the JetBrains Runtime (JBR). It has specific "optimizations"
@@ -81,6 +81,10 @@ android {
       )
     }
   }
+
+  buildFeatures {
+    viewBinding = true
+  }
 }
 
 tasks.named("build") {
@@ -97,4 +101,8 @@ dependencies {
   testImplementation(libs.junit)
   androidTestImplementation(libs.ext.junit)
   androidTestImplementation(libs.espresso.core)
+
+  val room_version = "2.8.3"
+  implementation("androidx.room:room-runtime:${room_version}")
+  annotationProcessor("androidx.room:room-compiler:$room_version")
 }

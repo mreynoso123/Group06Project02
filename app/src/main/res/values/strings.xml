@@ -1,5 +1,15 @@
 <resources>
   <string name="app_name">Group06Project02</string>
+  <string name="login">Login</string>
+  <string name="username">Username</string>
+  <string name="password">Password</string>
+  <string name="chorescore">ChoreScore</string>
+  <string name="create_account">Create Account</string>
+  <string name="forgot_password">Forgot Password</string>
+  <string name="forgot_password_text">Forgot Password</string>
+  <string name="email_address">Email Address</string>
+  <string name="submit">Submit</string>
+  <string name="reset_password">Reset Password</string>
   <string name="current_score">Current Score:</string>
   <string name="_0">0</string>
   <string name="completed_chores">Completed Chores:</string>
@@ -12,7 +22,6 @@
   <string name="description">Description</string>
   <string name="due_date">Due Date:</string>
   <string name="assign_to">Assign to:</string>
-  <string name="username">Username</string>
   <string name="score">Score:</string>
   <string name="create">Create</string>
   <string name="all_active_chores">All Active Chores:</string>
