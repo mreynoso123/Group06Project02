@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/main"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".ParentChoreDisplayActivity">
+
+  <TextView
+    android:id="@+id/createNewChoreTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="50dp"
+    android:text="@string/create_new_chore"
+    android:textSize="20sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+
+  <TextView
+    android:id="@+id/choreTitleTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="64dp"
+    android:text="@string/chore_title"
+    android:textSize="15sp"
+    app:layout_constraintBottom_toTopOf="@+id/editText"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="1.0" />
+
+  <EditText
+    android:id="@+id/editText"
+    android:layout_width="120dp"
+    android:layout_height="50dp"
+    android:layout_marginStart="64dp"
+    android:layout_marginBottom="20dp"
+    android:inputType="text"
+    android:hint="@string/name"
+    android:textSize="15sp"
+    app:layout_constraintBottom_toTopOf="@+id/choreDescriptionTextView"
+    app:layout_constraintStart_toStartOf="parent" />
+
+  <TextView
+    android:id="@+id/choreDescriptionTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="64dp"
+    android:text="@string/chore_description"
+    android:textSize="15sp"
+    app:layout_constraintBottom_toTopOf="@+id/choreDescriptionEditView"
+    app:layout_constraintStart_toStartOf="parent" />
+
+  <EditText
+    android:id="@+id/choreDescriptionEditView"
+    android:layout_width="120dp"
+    android:layout_height="50dp"
+    android:layout_marginStart="64dp"
+    android:layout_marginTop="212dp"
+    android:hint="@string/description"
+    android:textSize="15sp"
+    android:inputType="text"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+    android:id="@+id/dueDateTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="85dp"
+    android:text="@string/due_date"
+    android:textSize="15sp"
+    app:layout_constraintBottom_toTopOf="@+id/dueDateEditView"
+    app:layout_constraintStart_toEndOf="@+id/choreTitleTextView"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="1.0" />
+
+  <EditText
+    android:id="@+id/dueDateEditView"
+    android:layout_width="120dp"
+    android:layout_height="50dp"
+    android:layout_marginStart="40dp"
+    android:layout_marginBottom="20dp"
+    android:hint="@string/due_date"
+    android:textSize="15sp"
+    android:inputType="date"
+    app:layout_constraintBottom_toTopOf="@+id/assignToTextView"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toEndOf="@+id/editText" />
+
+  <TextView
+    android:id="@+id/assignToTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="40dp"
+    android:text="@string/assign_to"
+    android:textSize="15sp"
+    app:layout_constraintBottom_toTopOf="@+id/usernameEditView"
+    app:layout_constraintStart_toEndOf="@+id/choreDescriptionTextView" />
+
+  <EditText
+    android:id="@+id/usernameEditView"
+    android:layout_width="120dp"
+    android:layout_height="50dp"
+    android:layout_marginStart="40dp"
+    android:layout_marginTop="212dp"
+    android:hint="@string/username"
+    android:textSize="15sp"
+    android:inputType="text"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.002"
+    app:layout_constraintStart_toEndOf="@+id/choreDescriptionEditView"
+    app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+    android:id="@+id/scoreTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="64dp"
+    android:layout_marginTop="20dp"
+    android:text="@string/score"
+    android:textSize="15sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/choreDescriptionEditView" />
+
+  <EditText
+    android:id="@+id/scoreEditView"
+    android:layout_width="120dp"
+    android:layout_height="50dp"
+    android:layout_marginStart="64dp"
+    android:hint="@string/score"
+    android:textSize="15sp"
+    android:inputType="number"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/scoreTextView" />
+
+  <Button
+    android:id="@+id/createNewChoreButton"
+    android:layout_width="120dp"
+    android:layout_height="50dp"
+    android:layout_marginStart="40dp"
+    android:layout_marginTop="40dp"
+    android:text="@string/create"
+    android:textSize="15sp"
+    app:layout_constraintStart_toEndOf="@+id/scoreEditView"
+    app:layout_constraintTop_toBottomOf="@+id/usernameEditView" />
+
+  <TextView
+    android:id="@+id/allActiveChoresTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="375dp"
+    android:text="@string/all_active_chores"
+    android:textSize="20sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.498"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
