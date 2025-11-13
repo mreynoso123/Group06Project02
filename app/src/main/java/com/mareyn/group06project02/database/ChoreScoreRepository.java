@@ -67,4 +67,16 @@ public class ChoreScoreRepository {
   public LiveData<List<Chore>> getAllChoresByUserId(int loggedInUserId) {
     return choreDAO.getAllChoresByUserId(loggedInUserId);
   }
+
+  public LiveData<List<Chore>> getAllActiveChores() {
+    return choreDAO.getAllActiveChores();
+  }
+
+  public LiveData<List<Chore>> getCompletedChoresByUserId(int loggedInUserId) {
+    return choreDAO.getCompletedChoresByUserId(loggedInUserId);
+  }
+
+  public LiveData<List<Chore>> getActiveChoresByUserId(int loggedInUserId) {
+    return choreDAO.getActiveChoresByUserId(loggedInUserId);
+  }
 }
