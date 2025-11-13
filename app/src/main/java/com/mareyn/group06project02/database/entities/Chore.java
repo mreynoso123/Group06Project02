@@ -16,6 +16,8 @@ public class Chore {
   private String title;
   private String description;
   private int points;
+
+  // Complete = 1 and Active/Incomplete = 0
   private int status;
 
   @Override
