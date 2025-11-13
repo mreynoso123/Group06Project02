@@ -3,8 +3,12 @@ package com.mareyn.group06project02.database;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
+import com.mareyn.group06project02.database.entities.Chore;
 import com.mareyn.group06project02.database.entities.User;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -46,9 +50,33 @@ public class ChoreScoreRepository {
     return null;
   }
 
+  // User Repository Methods
   public void insertUser(User... user) {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
       userDAO.insert(user);
     });
+  }
+
+  // Chore Repository methods
+  public void insertChore(Chore chore) {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      choreDAO.insert(chore);
+    });
+  }
+
+  public LiveData<List<Chore>> getAllChoresByUserId(int loggedInUserId) {
+    return choreDAO.getAllChoresByUserId(loggedInUserId);
+  }
+
+  public LiveData<List<Chore>> getAllActiveChores() {
+    return choreDAO.getAllActiveChores();
+  }
+
+  public LiveData<List<Chore>> getCompletedChoresByUserId(int loggedInUserId) {
+    return choreDAO.getCompletedChoresByUserId(loggedInUserId);
+  }
+
+  public LiveData<List<Chore>> getActiveChoresByUserId(int loggedInUserId) {
+    return choreDAO.getActiveChoresByUserId(loggedInUserId);
   }
 }

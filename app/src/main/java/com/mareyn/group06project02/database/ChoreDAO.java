@@ -1,5 +1,6 @@
 package com.mareyn.group06project02.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -16,4 +17,16 @@ public interface ChoreDAO {
 
   @Query("SELECT * FROM " + ChoreScoreDatabase.CHORE_TABLE)
   List<Chore> getAllRecords();
+
+  @Query("SELECT * FROM " + ChoreScoreDatabase.CHORE_TABLE + " WHERE userId = :loggedInUserId ORDER BY choreId DESC")
+  LiveData<List<Chore>> getAllChoresByUserId(int loggedInUserId);
+
+  @Query("SELECT * FROM " + ChoreScoreDatabase.CHORE_TABLE + " WHERE status = 1 ORDER BY choreId")
+  LiveData<List<Chore>> getAllActiveChores();
+
+  @Query("SELECT * FROM " + ChoreScoreDatabase.CHORE_TABLE + " WHERE userId = :loggedInUserId AND status = 1 ORDER BY choreId DESC")
+  LiveData<List<Chore>> getCompletedChoresByUserId(int loggedInUserId);
+
+  @Query("SELECT * FROM " + ChoreScoreDatabase.CHORE_TABLE + " WHERE userId = :loggedInUserId AND status = 0 ORDER BY choreId DESC")
+  LiveData<List<Chore>> getActiveChoresByUserId(int loggedInUserId);
 }
