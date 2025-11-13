@@ -13,16 +13,13 @@ import java.util.List;
 public class ChoreViewModel extends AndroidViewModel {
   private final ChoreScoreRepository repository;
 
-  private final LiveData<List<Chore>> allChoresById;
-
   public ChoreViewModel(Application application, int userId) {
     super(application);
     repository = ChoreScoreRepository.getRepository(application);
-    allChoresById = repository.getAllChoresByUserId(userId);
   }
 
-  public LiveData<List<Chore>> getAllChoresById() {
-    return allChoresById;
+  public LiveData<List<Chore>> getAllChoresByUserId(int userId) {
+    return repository.getAllChoresByUserId(userId);
   }
 
   public void insert(Chore chore) {

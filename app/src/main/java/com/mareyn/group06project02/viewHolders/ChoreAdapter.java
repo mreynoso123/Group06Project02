@@ -27,7 +27,7 @@ public class ChoreAdapter extends ListAdapter<Chore, ChoreViewHolder> {
     holder.bind(current.toString());
   }
 
-  static class ChoreDiff extends DiffUtil.ItemCallback<Chore> {
+  public static class ChoreDiff extends DiffUtil.ItemCallback<Chore> {
     @Override
     public boolean areItemsTheSame(@NonNull Chore oldItem, @NonNull Chore newItem) {
       return oldItem == newItem;
