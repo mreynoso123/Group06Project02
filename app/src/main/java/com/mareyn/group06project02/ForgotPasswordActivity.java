@@ -76,9 +76,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
   }
 
-  // @Override
-  // public boolean
-
   // onCreateOptionsMenu initializes and inflates the menu resource (defined in an XML file) into the provided Menu object.
 
   //@Override

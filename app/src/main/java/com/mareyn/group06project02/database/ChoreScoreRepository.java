@@ -3,6 +3,8 @@ package com.mareyn.group06project02.database;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import com.mareyn.group06project02.database.entities.User;
 
 import java.util.concurrent.Callable;
@@ -50,5 +52,9 @@ public class ChoreScoreRepository {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
       userDAO.insert(user);
     });
+  }
+
+  public LiveData<User> getUserByUserName(String username) {
+    return userDAO.getUserByUsername(username);
   }
 }

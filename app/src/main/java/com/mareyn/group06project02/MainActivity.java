@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
   private ChoreScoreRepository repository;
   // MAIN_ACTIVITY_USER_ID is a key to retrieve a value to be a user id
   private static final String MAIN_ACTIVITY_USER_ID = "com.mareyn.group06project02.MAIN_ACTIVITY_USER_ID";
-  private static final int LOGGED_OUTt = -1;
+  private static final int LOGGED_OUT = -1;
   private int loggedInUserId = -1;
 
   @Override

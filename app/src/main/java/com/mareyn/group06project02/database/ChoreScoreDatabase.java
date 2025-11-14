@@ -59,11 +59,12 @@ public abstract class ChoreScoreDatabase extends RoomDatabase {
       databaseWriteExecutor.execute(() -> {
         UserDAO dao = INSTANCE.userDAO();
         //     dao.deleteAll();
-        //     User admin = new User("admin1", "admin1");
-        //     admin.setAdmin(true);
-        //     dao.insert(admin);
-        //
-        User testUser1 = new User(1, "testuser1", "password", 3, "");
+        // User admin = new User("admin1", "admin1");
+        User admin = new User(0, "admin1", "admin1", "");
+        admin.setAdmin(true);
+        dao.insert(admin);
+
+        User testUser1 = new User(1, "testuser1", "testuser1", "");
         dao.insert(testUser1);
       });
     }

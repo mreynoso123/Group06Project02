@@ -10,12 +10,16 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 
+import com.mareyn.group06project02.database.ChoreScoreRepository;
+import com.mareyn.group06project02.database.entities.User;
 import com.mareyn.group06project02.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 
   private ActivityLoginBinding binding;
+  private ChoreScoreRepository repository;
   private EditText hiddenEditText;
   @SuppressLint("UseSwitchCompatOrMaterialCode")
   private Switch hiddenSwitch;
@@ -26,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     binding = ActivityLoginBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
 
+    repository = ChoreScoreRepository.getRepository(getApplication());
+
     hiddenEditText = findViewById(R.id.hiddenEmailAddressEditText);
     hiddenSwitch = findViewById(R.id.adminSwitch);
 
@@ -33,10 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     binding.loginButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        // Use this one when the database is implemented
-        // startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getId()));
-        Intent intent = MainActivity.mainActivityIntentFactory(getApplicationContext(), 0);
-        startActivity(intent);
+        verifyUser();
       }
     });
 
@@ -72,23 +75,21 @@ public class LoginActivity extends AppCompatActivity {
       toastMaker("Username should not be blank");
     }
 
-    // below is used for the GymLog database
-    // LiveData<User> userObserver = repository.getUserByUserName(username);
-    // userObserver.observe(this, user -> {
-    //   if (user != null) {
-    //     String password = binding.passwordLoginEditText.getText().toString();
-    //     if (password.equals(user.getPassword())) {
-    //       startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getId()));
-    //     } else {
-    //       toastMaker("Invalid password");
-    //       binding.passwordLoginEditText.setSelection(0);
-    //     }
-    //   } else {
-    //     toastMaker(String.format("%s is not a valid username. ", username));
-    //     binding.userNameLoginEditText.setSelection(0);
-    //   }
-    // });
-
+    LiveData<User> userObserver = repository.getUserByUserName(username);
+    userObserver.observe(this, user -> {
+      if (user != null) {
+        String password = binding.passwordLoginEditText.getText().toString();
+        if (password.equals(user.getPassword())) {
+          startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getUserId()));
+        } else {
+          toastMaker("Invalid password");
+          binding.passwordLoginEditText.setSelection(0);
+        }
+      } else {
+        toastMaker(String.format("%s is not a valid username. ", username));
+        binding.userNameLoginEditText.setSelection(0);
+      }
+    });
   }
 
   private void toastMaker(String message) {

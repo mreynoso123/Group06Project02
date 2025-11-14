@@ -1,5 +1,6 @@
 package com.mareyn.group06project02.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -16,4 +17,7 @@ public interface UserDAO {
 
   @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE)
   List<User> getAllRecords();
+
+  @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE + " WHERE username == :username")
+  LiveData<User> getUserByUsername(String username);
 }
