@@ -3,9 +3,13 @@ package com.mareyn.group06project02.database;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
+import com.mareyn.group06project02.database.entities.Chore;
 import com.mareyn.group06project02.database.entities.Group;
 import com.mareyn.group06project02.database.entities.User;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -14,7 +18,6 @@ import java.util.function.Consumer;
 public class ChoreScoreRepository {
   private ChoreDAO choreDAO;
   private GroupDAO groupDAO;
-
   private UserDAO userDAO;
 
   private static ChoreScoreRepository repository;
@@ -49,10 +52,38 @@ public class ChoreScoreRepository {
     return null;
   }
 
+  // User Repository Methods
   public void insertUser(User... user) {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
       userDAO.insert(user);
     });
+  }
+
+  public LiveData<User> getUserByUserName(String username) {
+    return userDAO.getUserByUsername(username);
+  }
+
+  // Chore Repository methods
+  public void insertChore(Chore chore) {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      choreDAO.insert(chore);
+    });
+  }
+
+  public LiveData<List<Chore>> getAllChoresByUserId(int loggedInUserId) {
+    return choreDAO.getAllChoresByUserId(loggedInUserId);
+  }
+
+  public LiveData<List<Chore>> getAllActiveChores() {
+    return choreDAO.getAllActiveChores();
+  }
+
+  public LiveData<List<Chore>> getCompletedChoresByUserId(int loggedInUserId) {
+    return choreDAO.getCompletedChoresByUserId(loggedInUserId);
+  }
+
+  public LiveData<List<Chore>> getActiveChoresByUserId(int loggedInUserId) {
+    return choreDAO.getActiveChoresByUserId(loggedInUserId);
   }
 
   public void getUserById(int userId, Consumer<User> callback) {
@@ -64,7 +95,7 @@ public class ChoreScoreRepository {
 
   public void getUserByUsername(String username, Consumer<User> callback) {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
-      User user = userDAO.getUserByUsername(username);
+      User user = userDAO.getUserByUsername2(username);
       callback.accept(user);
     });
   }
@@ -72,6 +103,12 @@ public class ChoreScoreRepository {
   public void insertGroup(Group... group) {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
       groupDAO.insert(group);
+    });
+  }
+
+  public void deleteAllUsers() {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      userDAO.deleteAllRecords();
     });
   }
 }

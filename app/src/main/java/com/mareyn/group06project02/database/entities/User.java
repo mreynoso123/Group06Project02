@@ -15,13 +15,13 @@ public class User {
   private String email;
   private String username;
   private String password;
-  private int userType;
+  private boolean isAdmin;
 
-  public User(int familyId, String username, String password, int userType, String email) {
+  public User(int familyId, String username, String password, String email, boolean isAdmin) {
     this.familyId = familyId;
     this.username = username;
     this.password = password;
-    this.userType = userType;
+    this.isAdmin = isAdmin;
     this.email = email;
   }
 
@@ -33,7 +33,7 @@ public class User {
       ", email='" + email + '\'' +
       ", username='" + username + '\'' +
       ", password='" + password + '\'' +
-      ", userType=" + userType +
+      ", isAdmin=" + isAdmin +
       '}';
   }
 
@@ -41,12 +41,12 @@ public class User {
   public boolean equals(Object o) {
     if (o == null || getClass() != o.getClass()) return false;
     User user = (User) o;
-    return userId == user.userId && familyId == user.familyId && userType == user.userType && Objects.equals(email, user.email) && Objects.equals(username, user.username) && Objects.equals(password, user.password);
+    return userId == user.userId && familyId == user.familyId && isAdmin == user.isAdmin && Objects.equals(email, user.email) && Objects.equals(username, user.username) && Objects.equals(password, user.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, familyId, email, username, password, userType);
+    return Objects.hash(userId, familyId, email, username, password, isAdmin);
   }
 
   public int getUserId() {
@@ -89,15 +89,11 @@ public class User {
     this.password = password;
   }
 
-  public int getUserType() {
-    return userType;
-  }
-
-  public void setUserType(int userType) {
-    this.userType = userType;
-  }
-
   public boolean isAdmin() {
-    return userType == 1;
+    return isAdmin;
+  }
+
+  public void setAdmin(boolean admin) {
+    isAdmin = admin;
   }
 }
