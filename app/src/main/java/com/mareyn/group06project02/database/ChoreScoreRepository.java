@@ -57,6 +57,10 @@ public class ChoreScoreRepository {
     });
   }
 
+  public LiveData<User> getUserByUserName(String username) {
+    return userDAO.getUserByUsername(username);
+  }
+
   // Chore Repository methods
   public void insertChore(Chore chore) {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {

@@ -1,18 +1,28 @@
 package com.mareyn.group06project02;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 
+import com.mareyn.group06project02.database.ChoreScoreRepository;
+import com.mareyn.group06project02.database.entities.User;
 import com.mareyn.group06project02.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 
   private ActivityLoginBinding binding;
+  private ChoreScoreRepository repository;
+  private EditText hiddenEditText;
+  @SuppressLint("UseSwitchCompatOrMaterialCode")
+  private Switch hiddenSwitch;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -20,14 +30,16 @@ public class LoginActivity extends AppCompatActivity {
     binding = ActivityLoginBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
 
+    repository = ChoreScoreRepository.getRepository(getApplication());
+
+    hiddenEditText = findViewById(R.id.hiddenEmailAddressEditText);
+    hiddenSwitch = findViewById(R.id.adminSwitch);
+
     // this is for the login button
     binding.loginButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        // Use this one when the database is implemented
-        // startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getId()));
-        Intent intent = MainActivity.mainActivityIntentFactory(getApplicationContext(), 0);
-        startActivity(intent);
+        verifyUser();
       }
     });
 
@@ -35,6 +47,13 @@ public class LoginActivity extends AppCompatActivity {
     binding.createAccount.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        if (hiddenEditText.getVisibility() == View.GONE && hiddenSwitch.getVisibility() == View.GONE) {
+          hiddenEditText.setVisibility(View.VISIBLE);
+          hiddenSwitch.setVisibility(View.VISIBLE);
+        } else {
+          hiddenEditText.setVisibility(View.GONE);
+          hiddenSwitch.setVisibility(View.GONE);
+        }
       }
     });
 
@@ -42,9 +61,9 @@ public class LoginActivity extends AppCompatActivity {
     binding.forgotPassword.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+        Intent intent = ForgotPasswordActivity.forgotPasswordIntentFactory(getApplicationContext());
         // getIntent().putExtra();
-        startActivity(ForgotPasswordActivity.forgotPasswordIntentFactory(getApplicationContext()));
+        startActivity(intent);
       }
     });
   }
@@ -54,26 +73,23 @@ public class LoginActivity extends AppCompatActivity {
 
     if (username.isEmpty()) {
       toastMaker("Username should not be blank");
-      return;
     }
 
-    // below is used for the GymLog database
-    // LiveData<User> userObserver = repository.getUserByUserName(username);
-    // userObserver.observe(this, user -> {
-    //   if (user != null) {
-    //     String password = binding.passwordLoginEditText.getText().toString();
-    //     if (password.equals(user.getPassword())) {
-    //       startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getId()));
-    //     } else {
-    //       toastMaker("Invalid password");
-    //       binding.passwordLoginEditText.setSelection(0);
-    //     }
-    //   } else {
-    //     toastMaker(String.format("%s is not a valid username. ", username));
-    //     binding.userNameLoginEditText.setSelection(0);
-    //   }
-    // });
-
+    LiveData<User> userObserver = repository.getUserByUserName(username);
+    userObserver.observe(this, user -> {
+      if (user != null) {
+        String password = binding.passwordLoginEditText.getText().toString();
+        if (password.equals(user.getPassword())) {
+          startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getUserId()));
+        } else {
+          toastMaker("Invalid password");
+          binding.passwordLoginEditText.setSelection(0);
+        }
+      } else {
+        toastMaker(String.format("%s is not a valid username. ", username));
+        binding.userNameLoginEditText.setSelection(0);
+      }
+    });
   }
 
   private void toastMaker(String message) {
