@@ -3,52 +3,75 @@ package com.mareyn.group06project02.database;
 import android.app.Application;
 import android.util.Log;
 
+import com.mareyn.group06project02.database.entities.Group;
 import com.mareyn.group06project02.database.entities.User;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.function.Consumer;
 
 public class ChoreScoreRepository {
-  private ChoreDAO choreDAO;
-  private GroupDAO groupDAO;
-  private UserDAO userDAO;
+	private ChoreDAO choreDAO;
+	private GroupDAO groupDAO;
 
-  private static ChoreScoreRepository repository;
+	private UserDAO userDAO;
 
-  public ChoreScoreRepository(Application application) {
-    ChoreScoreDatabase db = ChoreScoreDatabase.getDatabase(application);
-    this.choreDAO = db.choreDAO();
-    this.groupDAO = db.groupDAO();
-    this.userDAO = db.userDAO();
-  }
+	private static ChoreScoreRepository repository;
 
-  public static ChoreScoreRepository getRepository(Application application) {
-    if (repository != null) {
-      return repository;
-    }
+	public ChoreScoreRepository(Application application) {
+		ChoreScoreDatabase db = ChoreScoreDatabase.getDatabase(application);
+		this.choreDAO = db.choreDAO();
+		this.groupDAO = db.groupDAO();
+		this.userDAO = db.userDAO();
+	}
 
-    Future<ChoreScoreRepository> future = ChoreScoreDatabase.databaseWriteExecutor.submit(new Callable<ChoreScoreRepository>() {
-      @Override
-      public ChoreScoreRepository call() throws Exception {
-        repository = new ChoreScoreRepository(application);
-        return repository;
-      }
-    });
+	public static ChoreScoreRepository getRepository(Application application) {
+		if (repository != null) {
+			return repository;
+		}
 
-    try {
-      return future.get();
-    } catch (InterruptedException | ExecutionException err) {
-      Log.i("KEY", "Problem with getRepository()");
-      err.printStackTrace();
-    }
+		Future<ChoreScoreRepository> future = ChoreScoreDatabase.databaseWriteExecutor.submit(new Callable<ChoreScoreRepository>() {
+			@Override
+			public ChoreScoreRepository call() throws Exception {
+				repository = new ChoreScoreRepository(application);
+				return repository;
+			}
+		});
 
-    return null;
-  }
+		try {
+			return future.get();
+		} catch (InterruptedException | ExecutionException err) {
+			Log.i("KEY", "Problem with getRepository()");
+			err.printStackTrace();
+		}
 
-  public void insertUser(User... user) {
-    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
-      userDAO.insert(user);
-    });
-  }
+		return null;
+	}
+
+	public void insertUser(User... user) {
+		ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+			userDAO.insert(user);
+		});
+	}
+
+	public void getUserById(int userId, Consumer<User> callback) {
+		ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+			User user = userDAO.getUserById(userId);
+			callback.accept(user);
+		});
+	}
+
+	public void getUserByUsername(String username, Consumer<User> callback) {
+		ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+			User user = userDAO.getUserByUsername(username);
+			callback.accept(user);
+		});
+	}
+
+	public void insertGroup(Group... group) {
+		ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+			groupDAO.insert(group);
+		});
+	}
 }

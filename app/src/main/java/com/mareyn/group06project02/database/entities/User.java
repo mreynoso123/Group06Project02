@@ -17,15 +17,7 @@ public class User {
   private String password;
   private int userType;
 
-  // public User(int familyId, String username, String password, int userType) {
-  //   this.familyId = familyId;
-  //   this.username = username;
-  //   this.password = password;
-  //   this.userType = userType;
-  // }
-
   public User(int familyId, String username, String password, int userType, String email) {
-    // this(familyId, username, password, userType);
     this.familyId = familyId;
     this.username = username;
     this.password = password;
@@ -103,5 +95,9 @@ public class User {
 
   public void setUserType(int userType) {
     this.userType = userType;
+  }
+
+  public boolean isAdmin() {
+    return userType == 1;
   }
 }
