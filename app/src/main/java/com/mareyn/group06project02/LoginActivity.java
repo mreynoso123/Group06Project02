@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
 import com.mareyn.group06project02.database.ChoreScoreRepository;
+import com.mareyn.group06project02.database.entities.Group;
 import com.mareyn.group06project02.database.entities.User;
 import com.mareyn.group06project02.databinding.ActivityLoginBinding;
 
@@ -31,6 +33,34 @@ public class LoginActivity extends AppCompatActivity {
     setContentView(binding.getRoot());
 
     repository = ChoreScoreRepository.getRepository(getApplication());
+
+    // Create initial test data.
+    {
+      ChoreScoreRepository repository = ChoreScoreRepository.getRepository(getApplication());
+      repository.deleteAllUsers();
+      Log.e("Initializing database", repository.toString());
+
+      var testGroup1 = new Group();
+      testGroup1.setName("test-group");
+      repository.insertGroup(testGroup1);
+
+      var testUser1 = new User(testGroup1.getGroupId(), "parent1", "password", "", true);
+      var testUser2 = new User(testGroup1.getGroupId(), "child1", "password", "", false);
+      var testUser3 = new User(testGroup1.getGroupId(), "child2", "password", "", false);
+      repository.insertUser(testUser1, testUser2, testUser3);
+
+      var testGroup2 = new Group();
+      testGroup2.setName("test-group2");
+      repository.insertGroup(testGroup2);
+      var testUser7 = new User(testGroup2.getGroupId(), "parent2", "password", "", true);
+      var testUser8 = new User(testGroup2.getGroupId(), "child7", "password", "", false);
+      repository.insertUser(testUser7, testUser8);
+
+      // Required for the demo video.
+      var testUser9 = new User(testGroup1.getGroupId(), "testuser1", "testuser1", "", false);
+      var testUser10 = new User(testGroup1.getGroupId(), "admin2", "admin2", "", true);
+      repository.insertUser(testUser9, testUser10);
+    }
 
     hiddenEditText = findViewById(R.id.hiddenEmailAddressEditText);
     hiddenSwitch = findViewById(R.id.adminSwitch);
@@ -80,7 +110,8 @@ public class LoginActivity extends AppCompatActivity {
       if (user != null) {
         String password = binding.passwordLoginEditText.getText().toString();
         if (password.equals(user.getPassword())) {
-          startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getUserId()));
+          var intent = LandingPageActivity.landingPageActivityIntentFactory(getApplicationContext(), binding.userNameLoginEditText.getText().toString());
+          startActivity(intent);
         } else {
           toastMaker("Invalid password");
           binding.passwordLoginEditText.setSelection(0);

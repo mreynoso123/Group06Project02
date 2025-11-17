@@ -18,6 +18,15 @@ public interface UserDAO {
   @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE)
   List<User> getAllRecords();
 
+  @Query("DELETE FROM " + ChoreScoreDatabase.USER_TABLE)
+  void deleteAllRecords();
+
   @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE + " WHERE username == :username")
   LiveData<User> getUserByUsername(String username);
+
+  @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE + " WHERE userId = :userId")
+  User getUserById(int userId);
+
+  @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE + " WHERE username = :username")
+  User getUserByUsername2(String username);
 }

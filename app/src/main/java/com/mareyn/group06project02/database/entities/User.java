@@ -17,11 +17,11 @@ public class User {
   private String password;
   private boolean isAdmin;
 
-  public User(int familyId, String username, String password, String email) {
+  public User(int familyId, String username, String password, String email, boolean isAdmin) {
     this.familyId = familyId;
     this.username = username;
     this.password = password;
-    isAdmin = false;
+    this.isAdmin = isAdmin;
     this.email = email;
   }
 

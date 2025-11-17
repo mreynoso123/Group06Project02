@@ -16,7 +16,7 @@ import com.mareyn.group06project02.database.entities.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Chore.class, User.class, Group.class}, version = 1, exportSchema = false)
+@Database(entities = {Chore.class, User.class, Group.class}, version = 2, exportSchema = false)
 public abstract class ChoreScoreDatabase extends RoomDatabase {
   public static final String DATABASE_NAME = "choreScoreDatabase";
   public static final String CHORE_TABLE = "chore";
@@ -60,11 +60,10 @@ public abstract class ChoreScoreDatabase extends RoomDatabase {
         UserDAO dao = INSTANCE.userDAO();
         //     dao.deleteAll();
         // User admin = new User("admin1", "admin1");
-        User admin = new User(0, "admin1", "admin1", "");
-        admin.setAdmin(true);
+        User admin = new User(0, "admin1", "admin1", "", true);
         dao.insert(admin);
 
-        User testUser1 = new User(1, "testuser1", "testuser1", "");
+        User testUser1 = new User(1, "testuser1", "testuser1", "", false);
         dao.insert(testUser1);
       });
     }
