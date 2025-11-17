@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface GroupDAO {
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  void insert(Group group);
+  void insert(Group... group);
 
   @Query("SELECT * FROM " + ChoreScoreDatabase.GROUP_TABLE)
   List<Group> getAllRecords();
