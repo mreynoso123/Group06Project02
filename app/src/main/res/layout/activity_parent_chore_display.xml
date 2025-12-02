@@ -26,13 +26,13 @@
     android:layout_marginStart="64dp"
     android:text="@string/chore_title"
     android:textSize="15sp"
-    app:layout_constraintBottom_toTopOf="@+id/editText"
+    app:layout_constraintBottom_toTopOf="@+id/choreTitleEditText"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_bias="1.0" />
 
   <EditText
-    android:id="@+id/editText"
+    android:id="@+id/choreTitleEditText"
     android:layout_width="120dp"
     android:layout_height="50dp"
     android:layout_marginStart="64dp"
@@ -83,13 +83,13 @@
     android:layout_height="50dp"
     android:layout_marginStart="40dp"
     android:layout_marginBottom="20dp"
-    android:hint="@string/due_date"
+    android:hint="@string/mm_dd_yyyy"
     android:textSize="15sp"
     android:inputType="date"
     app:layout_constraintBottom_toTopOf="@+id/assignToTextView"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toEndOf="@+id/editText" />
+    app:layout_constraintStart_toEndOf="@+id/choreTitleEditText" />
 
   <TextView
     android:id="@+id/assignToTextView"
