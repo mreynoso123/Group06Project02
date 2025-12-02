@@ -24,6 +24,9 @@ public interface UserDAO {
   @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE + " WHERE username == :username")
   LiveData<User> getUserByUsername(String username);
 
+  @Query("SELECT userId FROM " + ChoreScoreDatabase.USER_TABLE + " WHERE username == :username")
+  LiveData<Integer> getUserIdByUsername(String username);
+
   @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE + " WHERE userId = :userId")
   User getUserById(int userId);
 
