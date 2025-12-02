@@ -11,12 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.LiveData;
 
 import com.mareyn.group06project02.database.ChoreScoreRepository;
+import com.mareyn.group06project02.database.entities.User;
 import com.mareyn.group06project02.databinding.ActivityLandingPageBinding;
 
 public class LandingPageActivity extends AppCompatActivity {
-  private static String LANDING_PAGE_ACTIVITY_USER_ID = "landing-page-activity";
+  private static String LANDING_PAGE_ACTIVITY_USERNAME = "landing-page-activity";
+  private static String LANDING_PAGE_ACTIVITY_USER_ID = "landing-page-activity-userId";
   private ActivityLandingPageBinding binding;
   private ChoreScoreRepository repository = ChoreScoreRepository.getRepository(getApplication());
   ;
@@ -34,7 +37,8 @@ public class LandingPageActivity extends AppCompatActivity {
       return insets;
     });
 
-    var username = getIntent().getStringExtra(LANDING_PAGE_ACTIVITY_USER_ID);
+    var username = getIntent().getStringExtra(LANDING_PAGE_ACTIVITY_USERNAME);
+    int userId = getIntent().getIntExtra(LANDING_PAGE_ACTIVITY_USER_ID, -1);
     Log.e("USER-ID", "THIS IS THE USER ID: " + username);
 
     binding.logoutButton.setOnClickListener(view -> {
@@ -63,11 +67,34 @@ public class LandingPageActivity extends AppCompatActivity {
         });
       });
     });
+
+    // CHILD/PARENT DISPLAY CONNECTION
+    // TODO: Link to actual button when ready
+    LiveData<User> userObserver = repository.getUserByUserName(username);
+    userObserver.observe(this, user -> {
+      binding.landingPageTitle.setOnLongClickListener(new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+          Log.e("TESTING", "userID: " + userId);
+          if (user.isAdmin()) {
+            Log.e("TESTING", "WE'RE IN AS ADMIN");
+            Intent intent = ParentChoreDisplayActivity.parentChoreDisplayActivityIntentFactory(getApplicationContext(), username, userId);
+            startActivity(intent);
+          } else {
+            Log.e("TESTING", "WE'RE IN AS NORMIE");
+            Intent intent = ChildChoreDisplayActivity.ChildTaskDisplayActivityIntentFactory(getApplicationContext(), username, userId);
+            startActivity(intent);
+          }
+          return false;
+        }
+      });
+    });
   }
 
-  static Intent landingPageActivityIntentFactory(Context context, String username) {
+  static Intent landingPageActivityIntentFactory(Context context, String username, int userId) {
     Intent intent = new Intent(context, LandingPageActivity.class);
-    intent.putExtra(LANDING_PAGE_ACTIVITY_USER_ID, username);
+    intent.putExtra(LANDING_PAGE_ACTIVITY_USER_ID, userId);
+    intent.putExtra(LANDING_PAGE_ACTIVITY_USERNAME, username);
     return intent;
   }
 }
