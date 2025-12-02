@@ -13,13 +13,25 @@ import java.util.List;
 public class ChoreViewModel extends AndroidViewModel {
   private final ChoreScoreRepository repository;
 
-  public ChoreViewModel(Application application, int userId) {
+  public ChoreViewModel(Application application) {
     super(application);
     repository = ChoreScoreRepository.getRepository(application);
   }
 
   public LiveData<List<Chore>> getAllChoresByUserId(int userId) {
     return repository.getAllChoresByUserId(userId);
+  }
+
+  public LiveData<List<Chore>> getAllActiveChores() {
+    return repository.getAllActiveChores();
+  }
+
+  public LiveData<List<Chore>> getActiveChoresByUserId(int userId) {
+    return repository.getActiveChoresByUserId(userId);
+  }
+
+  public LiveData<List<Chore>> getCompletedChoresByUserId(int userId) {
+    return repository.getCompletedChoresByUserId(userId);
   }
 
   public void insert(Chore chore) {
