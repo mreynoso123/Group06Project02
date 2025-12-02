@@ -3,32 +3,53 @@ package com.mareyn.group06project02;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mareyn.group06project02.database.ChoreScoreRepository;
+import com.mareyn.group06project02.database.entities.Chore;
+import com.mareyn.group06project02.database.entities.User;
 import com.mareyn.group06project02.databinding.ActivityParentChoreDisplayBinding;
 import com.mareyn.group06project02.viewHolders.ChoreAdapter;
 import com.mareyn.group06project02.viewHolders.ChoreViewModel;
 
 public class ParentChoreDisplayActivity extends AppCompatActivity {
 
-  ActivityParentChoreDisplayBinding binding;
+  private static final String PARENT_DISPLAY_USER_ID = "com.mareyn.group06project02.PARENT_DISPLAY_USER_ID";
+  private static final String PARENT_DISPLAY_USERNAME = "com.mareyn.group06project02.PARENT_DISPLAY_USERNAME";
+
+  private ActivityParentChoreDisplayBinding binding;
   // need next line of code?
   private ChoreScoreRepository repository;
   private ChoreViewModel choreViewModel;
 
+  private String choreTitle = "";
+  private String dueDate = "";
+  private String choreDescription = "";
+  private String assignTo = "";
+  private int score = 0;
+
   // need the following info?
   private int loggedInUserId;
+  private String username;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_parent_chore_display);
+    binding = ActivityParentChoreDisplayBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
 
+    loggedInUserId = getIntent().getIntExtra(PARENT_DISPLAY_USER_ID, -1);
+    username = getIntent().getStringExtra(PARENT_DISPLAY_USERNAME);
+
+    // All Active Chores Recycler View
     choreViewModel = new ViewModelProvider(this).get(ChoreViewModel.class);
 
     // The following instantiates the recycler view
@@ -39,12 +60,77 @@ public class ParentChoreDisplayActivity extends AppCompatActivity {
 
     repository = ChoreScoreRepository.getRepository(getApplication());
 
-    choreViewModel.getAllChoresByUserId(loggedInUserId).observe(this, chores -> {
+    choreViewModel.getAllActiveChores().observe(this, chores -> {
       adapter.submitList(chores);
+    });
+
+    binding.createNewChoreButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        resetChoreDetails();
+        if (!getChoreInformation()) {
+          toastMaker("Empty Field");
+        } else {
+          insertChore();
+        }
+      }
     });
   }
 
-  static Intent parentChoreDisplayActivityIntentFactory(Context context) {
-    return new Intent(context, ParentChoreDisplayActivity.class);
+  private void resetChoreDetails() {
+    choreTitle = "";
+    dueDate = "";
+    choreDescription = "";
+    assignTo = "";
+    score = 0;
+  }
+
+  private boolean getChoreInformation() {
+    choreTitle = binding.choreTitleEditText.getText().toString();
+    dueDate = binding.dueDateEditView.getText().toString();
+    choreDescription = binding.choreDescriptionEditView.getText().toString();
+    assignTo = binding.usernameEditView.getText().toString();
+    try {
+      score = Integer.parseInt(binding.scoreEditView.getText().toString());
+    } catch (NumberFormatException e) {
+      Log.d("TEST", "Error reading value from scoreEditView");
+      return false;
+    }
+    if (choreTitle.isEmpty() || dueDate.isEmpty() || choreDescription.isEmpty() || assignTo.isEmpty()) {
+      resetChoreDetails();
+      return false;
+    } else if (score == 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  private void insertChore() {
+    LiveData<User> userObserver = repository.getUserByUserName(assignTo);
+    userObserver.observe(this, user -> {
+      if (user != null) {
+        Chore chore = new Chore(user.getUserId(), dueDate, choreTitle, choreDescription, score);
+        repository.insertChore(chore);
+      } else {
+        toastMaker("Assigned to user does not exist");
+      }
+    });
+    /*
+    Chore chore = new Chore(1, dueDate, choreTitle, choreDescription, score);
+    repository.insertChore(chore);
+
+     */
+  }
+
+  private void toastMaker(String message) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+  }
+
+  static Intent parentChoreDisplayActivityIntentFactory(Context context, String username, int userId) {
+    Intent intent = new Intent(context, ParentChoreDisplayActivity.class);
+    intent.putExtra(PARENT_DISPLAY_USERNAME, username);
+    intent.putExtra(PARENT_DISPLAY_USER_ID, userId);
+    return intent;
   }
 }
