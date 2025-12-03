@@ -81,6 +81,7 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
     });
   }
 
+  // Sets total score based on all completed chores respective to logged in user
   public void setTotalScore() {
     LiveData<Integer> total = repository.getTotalScoreCompletedChoresById(loggedInUserId);
     total.observe(this, totScore -> {
@@ -89,6 +90,8 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
     });
   }
 
+  // Receives value in EditText
+  // Returns true if choreId exists in database and stores value in class variable
   public boolean getChoreId() {
     try {
       choreId = Integer.parseInt(binding.choreIdEditText.getText().toString());
