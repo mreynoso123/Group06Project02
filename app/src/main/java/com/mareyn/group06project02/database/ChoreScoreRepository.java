@@ -34,19 +34,20 @@ public class ChoreScoreRepository {
       return repository;
     }
 
-    Future<ChoreScoreRepository> future = ChoreScoreDatabase.databaseWriteExecutor.submit(new Callable<ChoreScoreRepository>() {
-      @Override
-      public ChoreScoreRepository call() throws Exception {
-        repository = new ChoreScoreRepository(application);
-        return repository;
+    Future<ChoreScoreRepository> future = ChoreScoreDatabase.databaseWriteExecutor.submit(
+      new Callable<ChoreScoreRepository>() {
+        @Override
+        public ChoreScoreRepository call() throws Exception {
+          return new ChoreScoreRepository(application);
+        }
       }
-    });
+    );
 
     try {
       return future.get();
     } catch (InterruptedException | ExecutionException err) {
       Log.i("KEY", "Problem with getRepository()");
-      err.printStackTrace();
+      // err.printStackTrace();
     }
 
     return null;
@@ -67,6 +68,10 @@ public class ChoreScoreRepository {
 
   public LiveData<User> getUserByUserName(String username) {
     return userDAO.getUserByUsername(username);
+  }
+
+  public LiveData<Integer> getUserIdByUsername(String username) {
+    return userDAO.getUserIdByUsername(username);
   }
 
   // Chore Repository methods
@@ -92,6 +97,10 @@ public class ChoreScoreRepository {
     return choreDAO.getActiveChoresByUserId(loggedInUserId);
   }
 
+  public LiveData<Integer> getTotalScoreCompletedChoresById(int loggedInUserId) {
+    return choreDAO.getTotalScoreCompletedChoresById(loggedInUserId);
+  }
+
   public void getUserById(int userId, Consumer<User> callback) {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
       User user = userDAO.getUserById(userId);
@@ -115,6 +124,12 @@ public class ChoreScoreRepository {
   public void deleteAllUsers() {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
       userDAO.deleteAllRecords();
+    });
+  }
+
+  public void updateChoreStatus(int choreId) {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      choreDAO.updateChoreStatus(choreId);
     });
   }
 }

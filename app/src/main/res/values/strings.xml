@@ -28,4 +28,5 @@
   <string name="chore_description">Chore Description:</string>
   <string name="admin">Admin</string>
   <string name="Group">group</string>
+  <string name="mm_dd_yyyy">mm/dd/yyyy</string>
 </resources>

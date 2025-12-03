@@ -18,10 +18,13 @@ public interface ChoreDAO {
   @Query("SELECT * FROM " + ChoreScoreDatabase.CHORE_TABLE)
   List<Chore> getAllRecords();
 
+  @Query("SELECT SUM(points) FROM " + ChoreScoreDatabase.CHORE_TABLE + (" WHERE userId = :loggedInUserId AND status = 1"))
+  LiveData<Integer> getTotalScoreCompletedChoresById(int loggedInUserId);
+
   @Query("SELECT * FROM " + ChoreScoreDatabase.CHORE_TABLE + " WHERE userId = :loggedInUserId ORDER BY choreId DESC")
   LiveData<List<Chore>> getAllChoresByUserId(int loggedInUserId);
 
-  @Query("SELECT * FROM " + ChoreScoreDatabase.CHORE_TABLE + " WHERE status = 1 ORDER BY choreId")
+  @Query("SELECT * FROM " + ChoreScoreDatabase.CHORE_TABLE + " WHERE status = 0 ORDER BY choreId DESC")
   LiveData<List<Chore>> getAllActiveChores();
 
   @Query("SELECT * FROM " + ChoreScoreDatabase.CHORE_TABLE + " WHERE userId = :loggedInUserId AND status = 1 ORDER BY choreId DESC")
@@ -29,4 +32,7 @@ public interface ChoreDAO {
 
   @Query("SELECT * FROM " + ChoreScoreDatabase.CHORE_TABLE + " WHERE userId = :loggedInUserId AND status = 0 ORDER BY choreId DESC")
   LiveData<List<Chore>> getActiveChoresByUserId(int loggedInUserId);
+
+  @Query("UPDATE " + ChoreScoreDatabase.CHORE_TABLE + " SET status = 1 WHERE choreId = :choreId")
+  void updateChoreStatus(int choreId);
 }

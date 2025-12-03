@@ -20,17 +20,23 @@ public class Chore {
   // Complete = 1 and Active/Incomplete = 0
   private int status;
 
+  public Chore(int userId, String dueDate, String title, String description, int points) {
+    this.userId = userId;
+    this.dueDate = dueDate;
+    this.title = title;
+    this.description = description;
+    this.points = points;
+    this.status = 0;
+  }
+
   @Override
   public String toString() {
-    return "Chore{" +
-      "choreId=" + choreId +
-      ", userId=" + userId +
-      ", dueDate=" + dueDate +
-      ", title='" + title + '\'' +
-      ", description='" + description + '\'' +
-      ", points=" + points +
-      ", status=" + status +
-      '}';
+    return "Chore Id: " + choreId +
+      "\nChore Title: " + title +
+      "\nChore Description: " + description +
+      "\nAssigned to: " + userId +
+      "\nDue By: " + dueDate +
+      "\nPoints: " + points;
   }
 
   @Override
