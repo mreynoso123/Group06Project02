@@ -116,11 +116,6 @@ public class ParentChoreDisplayActivity extends AppCompatActivity {
         toastMaker("Assigned to user does not exist");
       }
     });
-    /*
-    Chore chore = new Chore(1, dueDate, choreTitle, choreDescription, score);
-    repository.insertChore(chore);
-
-     */
   }
 
   private void toastMaker(String message) {
