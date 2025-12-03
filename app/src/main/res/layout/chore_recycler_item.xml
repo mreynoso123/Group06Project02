@@ -9,8 +9,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:padding="2dp"
+    android:padding="10dp"
     android:text="CHORE GOES HERE"
     android:textSize="18sp"
-    android:background="@color/gold" />
+    android:elevation="2dp"
+    android:background="@drawable/rounded_recycler_view" />
 </LinearLayout>
