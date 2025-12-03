@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     repository = ChoreScoreRepository.getRepository(getApplication());
 
     // Create initial test data.
-    // Seed demo data once per app run. Password changes persist until the app is restarted.
+    // Initialize demo data once per app run. Password changes persist until the app is restarted.
     if (!initializeDataBase) {
       repository.deleteAllUsers();
       Log.e("Initializing database", repository.toString());
