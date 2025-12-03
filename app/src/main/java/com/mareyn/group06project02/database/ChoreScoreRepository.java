@@ -59,6 +59,12 @@ public class ChoreScoreRepository {
     });
   }
 
+  public void updateUser(User user) {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      userDAO.update(user);
+    });
+  }
+
   public LiveData<User> getUserByUserName(String username) {
     return userDAO.getUserByUsername(username);
   }

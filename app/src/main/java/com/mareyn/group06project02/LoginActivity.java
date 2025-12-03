@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
   private ActivityLoginBinding binding;
   private ChoreScoreRepository repository;
   private EditText hiddenEditText;
+  private static boolean initializeDataBase = false;
   @SuppressLint("UseSwitchCompatOrMaterialCode")
   private Switch hiddenSwitch;
 
@@ -35,8 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     repository = ChoreScoreRepository.getRepository(getApplication());
 
     // Create initial test data.
-    {
-      ChoreScoreRepository repository = ChoreScoreRepository.getRepository(getApplication());
+    // Seed demo data once per app run. Password changes persist until the app is restarted.
+    if (!initializeDataBase) {
       repository.deleteAllUsers();
       Log.e("Initializing database", repository.toString());
 
@@ -60,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
       var testUser9 = new User(testGroup1.getGroupId(), "testuser1", "testuser1", "", false);
       var testUser10 = new User(testGroup1.getGroupId(), "admin2", "admin2", "", true);
       repository.insertUser(testUser9, testUser10);
+
+      initializeDataBase = true;
     }
 
     hiddenEditText = findViewById(R.id.hiddenEmailAddressEditText);

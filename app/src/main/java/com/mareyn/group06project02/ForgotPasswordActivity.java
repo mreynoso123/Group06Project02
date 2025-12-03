@@ -12,12 +12,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mareyn.group06project02.database.ChoreScoreRepository;
 import com.mareyn.group06project02.databinding.ActivityForgotPasswordBinding;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
   private static final int LOGGED_OUT = -1;
   private static final String LOGIN_ACTIVITY_USER_ID = "com.mareyn.group06project02.LOGIN_ACTIVITY_USER_ID";
   private ActivityForgotPasswordBinding binding;
+  private ChoreScoreRepository repository;
   private int loggedInUserId = -1;
 
   @Override
@@ -26,17 +28,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     binding = ActivityForgotPasswordBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
 
+    repository = ChoreScoreRepository.getRepository(getApplication());
+
     binding.submitButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         verifyUser();
-        // this needs to check the filled username/email address against the database
-        // to ensure they correlate to an existing user.
-        // The user needs to provide either a username or email address or both
-        // else toastmaker notifies "please enter a valid username or email address"
-        // The reset password field will update the password but will not care if
-        // the existing password is entered.
-
       }
     });
   }
@@ -44,27 +41,31 @@ public class ForgotPasswordActivity extends AppCompatActivity {
   private void verifyUser() {
     String username = binding.userNameLoginEditText.getText().toString();
     String emailAddress = binding.emailAddressEditText.getText().toString();
-    String password = binding.resetPasswordEditText.getText().toString();
+    String newPassword = binding.resetPasswordEditText.getText().toString();
 
     if (username.isEmpty() && emailAddress.isEmpty()) {
       toastMaker("Please enter a username or email address");
       return;
     }
 
-    if (password.isEmpty()) {
+    if (newPassword.isEmpty()) {
       toastMaker("Please enter a password");
       return;
     }
 
-    // if (username != null || emailAddress != null) {
-    //   // TODO: check the fields against the database to see if the user is valid
-    //   if (username || emailAddress) {
-    //     // TODO: update the existing user password to the one provided
-    //   }
-    // } else {
-    //   toastMaker("Not a valid user");
-    //   binding.userNameLoginEditText.setSelection(0);
-    // }
+    repository.getUserByUsername(username, user -> {
+      runOnUiThread(() -> {
+        if (user == null) {
+          toastMaker("Invalid username");
+          return;
+        }
+
+        user.setPassword(newPassword);
+        repository.updateUser(user);
+        toastMaker(String.format("Password updated for %s", username));
+        startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
+      });
+    });
   }
 
   // Helper method for logic testing
