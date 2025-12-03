@@ -91,6 +91,10 @@ public class ChoreScoreRepository {
     return choreDAO.getActiveChoresByUserId(loggedInUserId);
   }
 
+  public LiveData<Integer> getTotalScoreCompletedChoresById(int loggedInUserId) {
+    return choreDAO.getTotalScoreCompletedChoresById(loggedInUserId);
+  }
+
   public void getUserById(int userId, Consumer<User> callback) {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
       User user = userDAO.getUserById(userId);

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,6 +51,7 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     repository = ChoreScoreRepository.getRepository(getApplication());
+    setTotalScore();
 
     choreViewModel.getActiveChoresByUserId(loggedInUserId).observe(this, chores -> {
       adapter.submitList(chores);
@@ -57,7 +59,7 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
 
     // // Completed Chores Recycler View
     choreViewModelCompletedChores = new ViewModelProvider(this).get(ChoreViewModel.class);
-    // TODO: double check these variables don't interfere with first recycler view
+
     RecyclerView recyclerView2 = binding.childCompletedChoresRecyclerView;
     final ChoreAdapter adapter2 = new ChoreAdapter(new ChoreAdapter.ChoreDiff());
     recyclerView2.setAdapter(adapter2);
@@ -73,8 +75,17 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
           toastMaker("Invalid Chore ID");
         } else {
           repository.updateChoreStatus(choreId);
+          setTotalScore();
         }
       }
+    });
+  }
+
+  public void setTotalScore() {
+    LiveData<Integer> total = repository.getTotalScoreCompletedChoresById(loggedInUserId);
+    total.observe(this, totScore -> {
+      int value = (totScore != null) ? totScore : 0;
+      binding.totalScoreTextView.setText(String.valueOf(value));
     });
   }
 

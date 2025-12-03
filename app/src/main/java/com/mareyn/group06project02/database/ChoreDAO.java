@@ -18,6 +18,9 @@ public interface ChoreDAO {
   @Query("SELECT * FROM " + ChoreScoreDatabase.CHORE_TABLE)
   List<Chore> getAllRecords();
 
+  @Query("SELECT SUM(points) FROM " + ChoreScoreDatabase.CHORE_TABLE + (" WHERE userId = :loggedInUserId AND status = 1"))
+  LiveData<Integer> getTotalScoreCompletedChoresById(int loggedInUserId);
+
   @Query("SELECT * FROM " + ChoreScoreDatabase.CHORE_TABLE + " WHERE userId = :loggedInUserId ORDER BY choreId DESC")
   LiveData<List<Chore>> getAllChoresByUserId(int loggedInUserId);
 
