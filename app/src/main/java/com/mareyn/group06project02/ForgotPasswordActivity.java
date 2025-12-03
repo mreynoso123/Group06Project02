@@ -77,9 +77,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
   }
 
-  // onCreateOptionsMenu initializes and inflates the menu resource (defined in an XML file) into the provided Menu object.
-
-  //@Override
+  // onCreateOptionsMenu initializes and inflates the menu resource
+  // (defined in an XML file) into the provided Menu object.
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.logout_menu, menu);
@@ -94,7 +93,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
       @Override
       public boolean onMenuItemClick(@NonNull MenuItem item) {
-        // getIntent().putExtra(LOGIN_ACTIVITY_USER_ID, loggedInUserId);
         startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
         return true;
       }
@@ -104,19 +102,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
   private void loginPage() {
     loggedInUserId = LOGGED_OUT;
-    // updateSharedPreference();
     getIntent().putExtra(LOGIN_ACTIVITY_USER_ID, loggedInUserId);
   }
-
-  // private void updateSharedPreference() {
-  //   // TODO: Need help with preference keys...are they necessary?
-  //   SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
-  //     getString(R.string.preference_file_key),
-  //     Context.MODE_PRIVATE);
-  //   SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
-  //   sharedPrefEditor.putInt(getString(R.string.preference_userId_key), loggedInUserId);
-  //   sharedPrefEditor.apply();
-  // }
 
   static Intent forgotPasswordIntentFactory(Context context) {
     return new Intent(context, ForgotPasswordActivity.class);
