@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.mareyn.group06project02.database.entities.User;
 
@@ -14,6 +15,9 @@ import java.util.List;
 public interface UserDAO {
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   void insert(User... chore);
+
+  @Update
+  void update(User user);
 
   @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE)
   List<User> getAllRecords();

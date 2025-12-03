@@ -58,8 +58,6 @@ public abstract class ChoreScoreDatabase extends RoomDatabase {
       Log.i("KEY", "DATABASE CREATED");
       databaseWriteExecutor.execute(() -> {
         UserDAO dao = INSTANCE.userDAO();
-        //     dao.deleteAll();
-        // User admin = new User("admin1", "admin1");
         User admin = new User(0, "admin1", "admin1", "", true);
         dao.insert(admin);
 
