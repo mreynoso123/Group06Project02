@@ -7,7 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,6 +49,13 @@ public class ParentChoreDisplayActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     binding = ActivityParentChoreDisplayBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
+
+    EdgeToEdge.enable(this);
+    ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+      Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+      v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+      return insets;
+    });
 
     loggedInUserId = getIntent().getIntExtra(PARENT_DISPLAY_USER_ID, -1);
     username = getIntent().getStringExtra(PARENT_DISPLAY_USERNAME);
