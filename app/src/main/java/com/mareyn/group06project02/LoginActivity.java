@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -23,9 +24,13 @@ public class LoginActivity extends AppCompatActivity {
   private ActivityLoginBinding binding;
   private ChoreScoreRepository repository;
   private EditText hiddenEditText;
+  private Button hiddenCreateButton;
+  private Button hideLoginButton;
   private static boolean initializeDataBase = false;
   @SuppressLint("UseSwitchCompatOrMaterialCode")
   private Switch hiddenSwitch;
+
+  private int defaultGroupId;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
       var testGroup1 = new Group();
       testGroup1.setName("test-group");
       repository.insertGroup(testGroup1);
-
+      defaultGroupId = testGroup1.getGroupId();
       var testUser1 = new User(testGroup1.getGroupId(), "parent1", "password", "", true);
       var testUser2 = new User(testGroup1.getGroupId(), "child1", "password", "", false);
       var testUser3 = new User(testGroup1.getGroupId(), "child2", "password", "", false);
@@ -67,6 +72,8 @@ public class LoginActivity extends AppCompatActivity {
 
     hiddenEditText = findViewById(R.id.hiddenEmailAddressEditText);
     hiddenSwitch = findViewById(R.id.adminSwitch);
+    hiddenCreateButton = findViewById(R.id.createButton);
+    hideLoginButton = findViewById(R.id.loginButton);
 
     // this is for the login button
     binding.loginButton.setOnClickListener(new View.OnClickListener() {
@@ -83,9 +90,46 @@ public class LoginActivity extends AppCompatActivity {
         if (hiddenEditText.getVisibility() == View.GONE && hiddenSwitch.getVisibility() == View.GONE) {
           hiddenEditText.setVisibility(View.VISIBLE);
           hiddenSwitch.setVisibility(View.VISIBLE);
+          hiddenCreateButton.setVisibility((View.VISIBLE));
+          hideLoginButton.setVisibility(View.GONE);
+
+          binding.createButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+              String newUsername = binding.userNameLoginEditText.getText().toString();
+              String newPassword = binding.passwordLoginEditText.getText().toString();
+              String newEmailAddress = binding.hiddenEmailAddressEditText.getText().toString();
+              boolean isAdmin = binding.adminSwitch.isChecked();
+
+              if (newUsername.isBlank() || newPassword.isBlank() || newEmailAddress.isBlank()) {
+                toastMaker("Please fill in all fields");
+                return true;
+              }
+
+              repository.getUserByUsername(newUsername, user -> {
+                runOnUiThread(() -> {
+                  if (user != null) {
+                    toastMaker("Username already exists");
+                    return;
+                  }
+
+                  var newUser = new User(defaultGroupId, newUsername, newPassword, newEmailAddress, isAdmin);
+                  repository.insertUser(newUser);
+                  toastMaker("Account created for " + newUsername);
+                  Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
+                  startActivity(intent);
+                });
+              });
+
+              Log.e("NEW USER", "Creating a new user account");
+              return true;
+            }
+          });
         } else {
           hiddenEditText.setVisibility(View.GONE);
           hiddenSwitch.setVisibility(View.GONE);
+          hiddenCreateButton.setVisibility(View.GONE);
+          hideLoginButton.setVisibility(View.VISIBLE);
         }
       }
     });
@@ -95,7 +139,6 @@ public class LoginActivity extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         Intent intent = ForgotPasswordActivity.forgotPasswordIntentFactory(getApplicationContext());
-        // getIntent().putExtra();
         startActivity(intent);
       }
     });

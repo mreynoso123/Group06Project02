@@ -34,6 +34,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         verifyUser();
+        Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
+        startActivity(intent);
       }
     });
   }
@@ -48,7 +50,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     //   return;
     // }
     if (username.isEmpty()) {
-      toastMaker("Please enter a username or email address");
+      toastMaker("Please enter a username");
       return;
     }
     if (newPassword.isEmpty()) {
