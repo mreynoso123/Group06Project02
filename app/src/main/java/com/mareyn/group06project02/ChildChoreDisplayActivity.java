@@ -7,7 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,11 +39,19 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
     binding = ActivityChildTaskDisplayBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
 
+    EdgeToEdge.enable(this);
+    ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+      Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+      v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+      return insets;
+    });
+
     // Get UserId
     loggedInUserId = getIntent().getIntExtra(CHILD_DISPLAY_USER_ID, -1);
 
     // Get Username
     username = getIntent().getStringExtra(CHILD_DISPLAY_USERNAME);
+    binding.usernameText.setText(username);
 
     // Active Chores Recycler View
     choreViewModel = new ViewModelProvider(this).get(ChoreViewModel.class);
@@ -106,7 +118,7 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
   }
 
-  static Intent ChildTaskDisplayActivityIntentFactory(Context context, String username, int userId) {
+  public static Intent ChildTaskDisplayActivityIntentFactory(Context context, String username, int userId) {
     Intent intent = new Intent(context, ChildChoreDisplayActivity.class);
     intent.putExtra(CHILD_DISPLAY_USERNAME, username);
     intent.putExtra(CHILD_DISPLAY_USER_ID, userId);

@@ -60,6 +60,46 @@ public class ChoreScoreRepository {
     });
   }
 
+  /**
+   * Insert a user only if it's userId does not already exist in the system.
+   */
+  public void insertUserIfNotExists(User user, Consumer<Boolean> callback) {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      var actualUser = userDAO.getUserByUsername2(user.getUsername());
+      if (actualUser == null) {
+        userDAO.insert(user);
+      }
+      callback.accept(actualUser == null);
+    });
+  }
+
+  public void insertUserIfNotExists(User user) {
+    insertUserIfNotExists(user, exists -> {
+    });
+  }
+
+  public void insertGroupIfNotExists(Group group, Consumer<Boolean> callback) {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      var actualGroup = groupDAO.getGroupByUsername2(group.getName());
+      if (actualGroup == null) {
+        groupDAO.insert(group);
+      }
+      callback.accept(actualGroup == null);
+    });
+  }
+
+  public void getGroupById(int groupId, Consumer<Group> callback) {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      var group = groupDAO.getGroupById(groupId);
+      callback.accept(group);
+    });
+  }
+
+  public void insertGroupIfNotExists(Group group) {
+    insertGroupIfNotExists(group, exists -> {
+    });
+  }
+
   public void updateUser(User user) {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
       userDAO.update(user);
@@ -72,6 +112,10 @@ public class ChoreScoreRepository {
 
   public LiveData<Integer> getUserIdByUsername(String username) {
     return userDAO.getUserIdByUsername(username);
+  }
+
+  public LiveData<List<Group>> getAllGroups() {
+    return groupDAO.getAllChores();
   }
 
   // Chore Repository methods
@@ -108,11 +152,33 @@ public class ChoreScoreRepository {
     });
   }
 
+  public LiveData<User> getUserById2(int userId) {
+    return userDAO.getUserById2(userId);
+  }
+
   public void getUserByUsername(String username, Consumer<User> callback) {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
       User user = userDAO.getUserByUsername2(username);
       callback.accept(user);
     });
+  }
+
+  public void getGroupByName(String username, Consumer<Group> callback) {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      Group group = groupDAO.getGroupByUsername2(username);
+      callback.accept(group);
+    });
+  }
+
+  public void getUsersByGroupId(int groupId, Consumer<List<User>> callback) {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      var users = userDAO.getUsersByGroupId(groupId);
+      callback.accept(users);
+    });
+  }
+
+  public LiveData<List<User>> getUsersByGroupId2(int groupId) {
+    return userDAO.getUsersByGroupId2(groupId);
   }
 
   public void insertGroup(Group... group) {
@@ -124,6 +190,18 @@ public class ChoreScoreRepository {
   public void deleteAllUsers() {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
       userDAO.deleteAllRecords();
+    });
+  }
+
+  public void deleteAllGroups() {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      groupDAO.deleteAllRecords();
+    });
+  }
+
+  public void deleteAllChores() {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      choreDAO.deleteAllRecords();
     });
   }
 
