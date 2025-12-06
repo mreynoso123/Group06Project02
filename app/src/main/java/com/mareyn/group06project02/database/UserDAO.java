@@ -25,6 +25,9 @@ public interface UserDAO {
   @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE + " WHERE familyId == :groupId")
   List<User> getUsersByGroupId(int groupId);
 
+  @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE + " WHERE familyId == :groupId")
+  LiveData<List<User>> getUsersByGroupId2(int groupId);
+
   @Query("DELETE FROM " + ChoreScoreDatabase.USER_TABLE)
   void deleteAllRecords();
 
@@ -36,6 +39,9 @@ public interface UserDAO {
 
   @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE + " WHERE userId = :userId")
   User getUserById(int userId);
+
+  @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE + " WHERE userId = :userId")
+  LiveData<User> getUserById2(int userId);
 
   @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE + " WHERE username = :username")
   User getUserByUsername2(String username);

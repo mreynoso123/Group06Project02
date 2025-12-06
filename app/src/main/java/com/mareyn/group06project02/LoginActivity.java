@@ -75,6 +75,9 @@ public class LoginActivity extends AppCompatActivity {
     // Create initial test data.
     // Initialize demo data once per app run. Password changes persist forever
     Log.e("Initializing database...", repository.toString());
+    // TO RESET THE DATABASE:
+    // Uncomment this out and then run. The app crashes (oops!), but if you
+    // recommend the code and then run again, it should work!
     // repository.deleteAllUsers();
     // repository.deleteAllGroups();
     // repository.deleteAllChores();
@@ -82,10 +85,8 @@ public class LoginActivity extends AppCompatActivity {
     var testGroup1 = new Group(1, "test-group1");
     repository.insertGroupIfNotExists(testGroup1);
     defaultGroupId = 1;
-    var testUser1 = new User(testGroup1.getGroupId(), "parent1", "password", "", true);
     var testUser2 = new User(testGroup1.getGroupId(), "child1", "password", "", false);
     var testUser3 = new User(testGroup1.getGroupId(), "child2", "password", "", false);
-    repository.insertUserIfNotExists(testUser1);
     repository.insertUserIfNotExists(testUser2);
     repository.insertUserIfNotExists(testUser3);
 

@@ -14,7 +14,7 @@ public class GroupViewHolder extends RecyclerView.ViewHolder {
 
   private GroupViewHolder(View choreView) {
     super(choreView);
-    groupViewItem = choreView.findViewById(R.id.recyclerItemTextView);
+    groupViewItem = choreView.findViewById(R.id.recyclerItemFamilyGroupTextView);
   }
 
   public void bind(String text) {
@@ -23,7 +23,7 @@ public class GroupViewHolder extends RecyclerView.ViewHolder {
 
   static GroupViewHolder create(ViewGroup parent) {
     View view = LayoutInflater.from(parent.getContext())
-      .inflate(R.layout.chore_recycler_item, parent, false);
+      .inflate(R.layout.group_recycler_item, parent, false);
     return new GroupViewHolder(view);
   }
 }

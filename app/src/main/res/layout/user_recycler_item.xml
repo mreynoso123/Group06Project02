@@ -1,12 +1,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:layout_marginLeft="8pt"
-  android:layout_marginRight="8pt"
   android:gravity="center_vertical">
 
   <TextView
-    android:id="@+id/recyclerItemFamilyGroupTextView"
+    android:id="@+id/recyclerItemUserChildTextView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="Hey!" />

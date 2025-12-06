@@ -152,6 +152,10 @@ public class ChoreScoreRepository {
     });
   }
 
+  public LiveData<User> getUserById2(int userId) {
+    return userDAO.getUserById2(userId);
+  }
+
   public void getUserByUsername(String username, Consumer<User> callback) {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
       User user = userDAO.getUserByUsername2(username);
@@ -171,6 +175,10 @@ public class ChoreScoreRepository {
       var users = userDAO.getUsersByGroupId(groupId);
       callback.accept(users);
     });
+  }
+
+  public LiveData<List<User>> getUsersByGroupId2(int groupId) {
+    return userDAO.getUsersByGroupId2(groupId);
   }
 
   public void insertGroup(Group... group) {

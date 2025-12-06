@@ -111,5 +111,5 @@
     app:layout_constraintHorizontal_bias="1.0"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/whatFamilyText"
-    tools:listitem="@layout/group_text_row_item" />
+    tools:listitem="@layout/group_recycler_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

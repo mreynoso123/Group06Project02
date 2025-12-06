@@ -51,6 +51,7 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
 
     // Get Username
     username = getIntent().getStringExtra(CHILD_DISPLAY_USERNAME);
+    binding.usernameText.setText(username);
 
     // Active Chores Recycler View
     choreViewModel = new ViewModelProvider(this).get(ChoreViewModel.class);
@@ -117,7 +118,7 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
   }
 
-  static Intent ChildTaskDisplayActivityIntentFactory(Context context, String username, int userId) {
+  public static Intent ChildTaskDisplayActivityIntentFactory(Context context, String username, int userId) {
     Intent intent = new Intent(context, ChildChoreDisplayActivity.class);
     intent.putExtra(CHILD_DISPLAY_USERNAME, username);
     intent.putExtra(CHILD_DISPLAY_USER_ID, userId);

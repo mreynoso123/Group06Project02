@@ -17,8 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mareyn.group06project02.database.ChoreScoreRepository;
 import com.mareyn.group06project02.databinding.ActivityLandingPageBinding;
-import com.mareyn.group06project02.viewHolders.GroupAdapter;
 import com.mareyn.group06project02.viewHolders.GroupViewModel;
+import com.mareyn.group06project02.viewHolders.UserAdapter;
+import com.mareyn.group06project02.viewHolders.UserViewModel;
 
 public class LandingPageActivity extends AppCompatActivity {
   private static String LANDING_PAGE_ACTIVITY_USERNAME = "landing-page-activity";
@@ -77,14 +78,19 @@ public class LandingPageActivity extends AppCompatActivity {
         }
 
         var groupsViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
+        var usersViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         RecyclerView recyclerView = binding.activeFamilyGroupsRecyclerView;
-        final GroupAdapter adapter = new GroupAdapter(new GroupAdapter.GroupDiff());
+        final UserAdapter adapter = new UserAdapter(new UserAdapter.UserDiff(), getApplicationContext(), user3 -> {
+          Log.i("LOGGER", "CLICKED THIS: " + user3.getUsername());
+          Intent intent = ChildChoreDisplayActivity.ChildTaskDisplayActivityIntentFactory(getApplication(), user3.getUsername(), user3.getUserId());
+          startActivity(intent);
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        groupsViewModel.getAllGroups().observe(this, chores -> {
-          adapter.submitList(chores);
+        usersViewModel.getUsersWithGroupId(user.getFamilyId()).observe(this, users -> {
+          adapter.submitList(users);
         });
 
         // List.
