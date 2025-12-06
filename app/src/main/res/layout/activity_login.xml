@@ -49,8 +49,6 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/userNameLoginEditText" />
 
-  <!--  Create a way so that create account while by default and popup the field when -->
-  <!--  click create account and everything under it pushes under it-->
   <EditText
     android:id="@+id/hiddenEmailAddressEditText"
     android:layout_width="match_parent"
@@ -88,6 +86,19 @@
     android:layout_margin="32dp"
     android:text="@string/login"
     android:textSize="24sp"
+    android:visibility="visible"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/hiddenEmailAddressEditText" />
+
+  <Button
+    android:id="@+id/createButton"
+    android:layout_width="150dp"
+    android:layout_height="70dp"
+    android:layout_margin="32dp"
+    android:text="@string/create"
+    android:textSize="24sp"
+    android:visibility="gone"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/hiddenEmailAddressEditText" />
@@ -105,7 +116,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.05"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/loginButton" />
+    app:layout_constraintTop_toBottomOf="@id/adminSwitch" />
 
   <TextView
     android:id="@+id/forgotPassword"
@@ -119,7 +130,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.95"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/loginButton" />
+    app:layout_constraintTop_toBottomOf="@id/adminSwitch" />
 
   <!--  <Spinner-->
   <!--    android:id="@+id/spinner"-->
