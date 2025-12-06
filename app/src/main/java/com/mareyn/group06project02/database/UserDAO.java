@@ -22,6 +22,9 @@ public interface UserDAO {
   @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE)
   List<User> getAllRecords();
 
+  @Query("SELECT * FROM " + ChoreScoreDatabase.USER_TABLE + " WHERE familyId == :groupId")
+  List<User> getUsersByGroupId(int groupId);
+
   @Query("DELETE FROM " + ChoreScoreDatabase.USER_TABLE)
   void deleteAllRecords();
 

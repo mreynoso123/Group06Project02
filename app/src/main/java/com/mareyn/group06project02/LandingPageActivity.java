@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,9 @@ import androidx.lifecycle.LiveData;
 import com.mareyn.group06project02.database.ChoreScoreRepository;
 import com.mareyn.group06project02.database.entities.User;
 import com.mareyn.group06project02.databinding.ActivityLandingPageBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LandingPageActivity extends AppCompatActivity {
   private static String LANDING_PAGE_ACTIVITY_USERNAME = "landing-page-activity";
@@ -39,6 +44,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
     var username = getIntent().getStringExtra(LANDING_PAGE_ACTIVITY_USERNAME);
     int userId = getIntent().getIntExtra(LANDING_PAGE_ACTIVITY_USER_ID, -1);
+
     Log.e("USER-ID", "THIS IS THE USER ID: " + username);
 
     binding.logoutButton.setOnClickListener(view -> {
@@ -47,6 +53,9 @@ public class LandingPageActivity extends AppCompatActivity {
     });
 
     repository.getUserByUsername(username, user -> {
+      repository.getUsersByGroupId(user.getFamilyId(), users -> {
+
+      });
       runOnUiThread(() -> {
         if (user == null) {
           return;
@@ -54,12 +63,65 @@ public class LandingPageActivity extends AppCompatActivity {
         Log.e("TESTING", "Is admin: " + user.isAdmin());
 
         binding.landingPageTitle.setText("Welcome, " + user.getUsername());
+        if (!user.getEmail().isEmpty()) {
+          binding.emailText.setText("Email: " + user.getEmail());
+        } else {
+          binding.emailText.setText("Email: " + "N/A");
+        }
+        repository.getGroupById(user.getFamilyId(), group -> {
+          binding.whatFamilyText.setText("You are part of GROUP: " + group.getName());
+        });
         if (user.isAdmin()) {
           binding.goToAdminPageButton.setVisibility(View.VISIBLE);
           binding.adminStatus.setText("You ARE an admin");
         } else {
           binding.adminStatus.setText("You ARE NOT an admin");
         }
+
+        // List.
+        class Item {
+          private String title;
+          private String description;
+
+          public Item(String title, String description) {
+            this.title = title;
+            this.description = description;
+          }
+
+          public String getTitle() {
+            return title;
+          }
+
+          public String getDescription() {
+            return description;
+          }
+        }
+        class ItemAdapter extends ArrayAdapter<Item> {
+          public ItemAdapter(Context context, List<Item> items) {
+            super(context, 0, items);
+          }
+
+          @Override
+          public View getView(int position, View convertView, ViewGroup parent) {
+            // if (convertView == null) {
+            //   convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
+            // }
+            //
+            // Item item = getItem(position);
+            //
+            // TextView titleView = convertView.findViewById(R.id.itemTitle);
+            // TextView descView = convertView.findViewById(R.id.itemDescription);
+            //
+            // titleView.setText(item.getTitle());
+            // descView.setText(item.getDescription());
+            //
+            // return convertView;
+            return null;
+          }
+        }
+        var items = new ArrayList<Item>();
+        items.add(new Item("", ""));
+        ItemAdapter adapter = new ItemAdapter(this, items);
 
         binding.goToAdminPageButton.setOnClickListener(view -> {
           var intent = AdminControlsActivity.adminControlsActivityIntentFactory(getApplicationContext(), user.getUserId());

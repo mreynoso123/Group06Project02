@@ -32,14 +32,15 @@
     android:textSize="18sp"
     app:layout_constraintBottom_toTopOf="@+id/goToAdminPageButton"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/landingPageTitle" />
+    app:layout_constraintTop_toBottomOf="@+id/landingPageTitle"
+    app:layout_constraintVertical_bias="0.968" />
 
   <Button
     android:id="@+id/goToAdminPageButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
-    android:layout_marginTop="32dp"
+    android:layout_marginTop="72dp"
     android:text="Go to Secret Admin Page"
     android:textFontWeight="@integer/material_motion_duration_medium_2"
     android:visibility="invisible"
@@ -74,8 +75,30 @@
     android:layout_width="100pt"
     android:layout_height="20pt"
     android:layout_marginStart="16dp"
-    android:layout_marginTop="8dp"
+    android:layout_marginTop="60dp"
     android:text="Log out"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/pageDescription" />
+
+  <TextView
+    android:id="@+id/emailText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginBottom="8dp"
+    android:text="dddd"
+    android:textColor="#7F7D7D"
+    app:layout_constraintBottom_toTopOf="@+id/adminStatus"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/landingPageTitle" />
+
+  <TextView
+    android:id="@+id/whatFamilyText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:text="TextView"
+    app:layout_constraintBottom_toTopOf="@+id/logoutButton"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/pageDescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>

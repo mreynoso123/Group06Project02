@@ -16,7 +16,7 @@ import com.mareyn.group06project02.database.entities.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Chore.class, User.class, Group.class}, version = 2, exportSchema = false)
+@Database(entities = {Chore.class, User.class, Group.class}, version = 4, exportSchema = false)
 public abstract class ChoreScoreDatabase extends RoomDatabase {
   public static final String DATABASE_NAME = "choreScoreDatabase";
   public static final String CHORE_TABLE = "chore";

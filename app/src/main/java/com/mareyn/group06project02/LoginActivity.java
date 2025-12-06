@@ -27,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
   private ActivityLoginBinding binding;
   private ChoreScoreRepository repository;
   private EditText hiddenEditText;
-  private static boolean initializeDataBase = false;
   @SuppressLint("UseSwitchCompatOrMaterialCode")
   private Switch hiddenSwitch;
 
@@ -49,12 +48,12 @@ public class LoginActivity extends AppCompatActivity {
     // Create initial test data.
     // Initialize demo data once per app run. Password changes persist forever
     Log.e("Initializing database...", repository.toString());
-    repository.deleteAllUsers();
-    repository.deleteAllGroups();
-    repository.deleteAllChores();
-    var testGroup1 = new Group("test-group");
-    repository.insertGroupIfNotExists(testGroup1);
+    // repository.deleteAllUsers();
+    // repository.deleteAllGroups();
+    // repository.deleteAllChores();
 
+    var testGroup1 = new Group(1, "test-group1");
+    repository.insertGroupIfNotExists(testGroup1);
     var testUser1 = new User(testGroup1.getGroupId(), "parent1", "password", "", true);
     var testUser2 = new User(testGroup1.getGroupId(), "child1", "password", "", false);
     var testUser3 = new User(testGroup1.getGroupId(), "child2", "password", "", false);
@@ -62,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     repository.insertUserIfNotExists(testUser2);
     repository.insertUserIfNotExists(testUser3);
 
-    var testGroup2 = new Group("test-group2");
+    var testGroup2 = new Group(2, "test-group2");
     repository.insertGroupIfNotExists(testGroup2);
     var testUser7 = new User(testGroup2.getGroupId(), "parent2", "password", "", true);
     var testUser8 = new User(testGroup2.getGroupId(), "child7", "password", "", false);
@@ -71,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // Required for the demo video.
     var testUser9 = new User(testGroup1.getGroupId(), "testuser1", "testuser1", "", false);
-    var testUser10 = new User(testGroup1.getGroupId(), "admin2", "admin2", "", true);
+    var testUser10 = new User(testGroup1.getGroupId(), "admin2", "admin2", "eankeen@gmail.com", true);
     repository.insertUserIfNotExists(testUser9);
     repository.insertUserIfNotExists(testUser10);
 

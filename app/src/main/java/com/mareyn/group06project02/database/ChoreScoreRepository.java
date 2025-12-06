@@ -88,6 +88,13 @@ public class ChoreScoreRepository {
     });
   }
 
+  public void getGroupById(int groupId, Consumer<Group> callback) {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      var group = groupDAO.getGroupById(groupId);
+      callback.accept(group);
+    });
+  }
+
   public void insertGroupIfNotExists(Group group) {
     insertGroupIfNotExists(group, exists -> {
     });
@@ -148,6 +155,20 @@ public class ChoreScoreRepository {
     });
   }
 
+  public void getGroupByName(String username, Consumer<Group> callback) {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      Group group = groupDAO.getGroupByUsername2(username);
+      callback.accept(group);
+    });
+  }
+
+  public void getUsersByGroupId(int groupId, Consumer<List<User>> callback) {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      var users = userDAO.getUsersByGroupId(groupId);
+      callback.accept(users);
+    });
+  }
+
   public void insertGroup(Group... group) {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
       groupDAO.insert(group);
@@ -157,6 +178,18 @@ public class ChoreScoreRepository {
   public void deleteAllUsers() {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
       userDAO.deleteAllRecords();
+    });
+  }
+
+  public void deleteAllGroups() {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      groupDAO.deleteAllRecords();
+    });
+  }
+
+  public void deleteAllChores() {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      choreDAO.deleteAllRecords();
     });
   }
 
