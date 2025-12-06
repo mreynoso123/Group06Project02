@@ -38,7 +38,7 @@ public class LoginSuccessReceiver extends BroadcastReceiver {
       NotificationManagerCompat manager = NotificationManagerCompat.from(context);
       if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
         != PackageManager.PERMISSION_GRANTED) {
-        // Permission not granted – don't try to show the notification
+        // Permission not granted, don't try to show the notification
         return;
       }
       manager.notify(1, notification);

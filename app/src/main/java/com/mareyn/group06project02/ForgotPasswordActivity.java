@@ -45,10 +45,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     // String emailAddress = binding.emailAddressEditText.getText().toString();
     String newPassword = binding.resetPasswordEditText.getText().toString();
 
-    // if (username.isEmpty() && emailAddress.isEmpty()) {
-    //   toastMaker("Please enter a username or email address");
-    //   return;
-    // }
     if (username.isEmpty()) {
       toastMaker("Please enter a username");
       return;

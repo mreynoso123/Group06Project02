@@ -177,6 +177,8 @@ public class LoginActivity extends AppCompatActivity {
       if (user != null) {
         String password = binding.passwordLoginEditText.getText().toString();
         if (password.equals(user.getPassword())) {
+
+          // this is for the push notification
           Intent broadcastIntent = new Intent(getApplicationContext(), LoginSuccessReceiver.class);
           broadcastIntent.setAction(ACTION_LOGIN_SUCCESS);
           broadcastIntent.putExtra("message", "Welcome " + username);

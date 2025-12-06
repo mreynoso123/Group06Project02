@@ -17,7 +17,6 @@
     <activity
       android:name=".LandingPageActivity"
       android:exported="true">
-
       <!-- <intent-filter> -->
       <!-- <action android:name="android.intent.action.MAIN" /> -->
 
@@ -56,5 +55,4 @@
     </receiver>
 
   </application>
-
 </manifest>

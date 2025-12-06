@@ -49,8 +49,6 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/userNameLoginEditText" />
 
-  <!--  Create a way so that create account while by default and popup the field when -->
-  <!--  click create account and everything under it pushes under it-->
   <EditText
     android:id="@+id/hiddenEmailAddressEditText"
     android:layout_width="match_parent"
