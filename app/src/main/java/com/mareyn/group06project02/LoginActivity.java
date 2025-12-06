@@ -47,34 +47,38 @@ public class LoginActivity extends AppCompatActivity {
     repository = ChoreScoreRepository.getRepository(getApplication());
 
     // Create initial test data.
-    // Initialize demo data once per app run. Password changes persist until the app is restarted.
-    if (!initializeDataBase) {
-      repository.deleteAllUsers();
-      Log.e("Initializing database", repository.toString());
+    // Initialize demo data once per app run. Password changes persist forever
+    Log.e("Initializing database...", repository.toString());
+    repository.deleteAllUsers();
+    repository.deleteAllGroups();
+    repository.deleteAllChores();
+    var testGroup1 = new Group("test-group");
+    repository.insertGroupIfNotExists(testGroup1);
 
-      var testGroup1 = new Group();
-      testGroup1.setName("test-group");
-      repository.insertGroup(testGroup1);
+    var testUser1 = new User(testGroup1.getGroupId(), "parent1", "password", "", true);
+    var testUser2 = new User(testGroup1.getGroupId(), "child1", "password", "", false);
+    var testUser3 = new User(testGroup1.getGroupId(), "child2", "password", "", false);
+    repository.insertUserIfNotExists(testUser1);
+    repository.insertUserIfNotExists(testUser2);
+    repository.insertUserIfNotExists(testUser3);
 
-      var testUser1 = new User(testGroup1.getGroupId(), "parent1", "password", "", true);
-      var testUser2 = new User(testGroup1.getGroupId(), "child1", "password", "", false);
-      var testUser3 = new User(testGroup1.getGroupId(), "child2", "password", "", false);
-      repository.insertUser(testUser1, testUser2, testUser3);
+    var testGroup2 = new Group("test-group2");
+    repository.insertGroupIfNotExists(testGroup2);
+    var testUser7 = new User(testGroup2.getGroupId(), "parent2", "password", "", true);
+    var testUser8 = new User(testGroup2.getGroupId(), "child7", "password", "", false);
+    repository.insertUserIfNotExists(testUser7);
+    repository.insertUserIfNotExists(testUser8);
 
-      var testGroup2 = new Group();
-      testGroup2.setName("test-group2");
-      repository.insertGroup(testGroup2);
-      var testUser7 = new User(testGroup2.getGroupId(), "parent2", "password", "", true);
-      var testUser8 = new User(testGroup2.getGroupId(), "child7", "password", "", false);
-      repository.insertUser(testUser7, testUser8);
+    // Required for the demo video.
+    var testUser9 = new User(testGroup1.getGroupId(), "testuser1", "testuser1", "", false);
+    var testUser10 = new User(testGroup1.getGroupId(), "admin2", "admin2", "", true);
+    repository.insertUserIfNotExists(testUser9);
+    repository.insertUserIfNotExists(testUser10);
 
-      // Required for the demo video.
-      var testUser9 = new User(testGroup1.getGroupId(), "testuser1", "testuser1", "", false);
-      var testUser10 = new User(testGroup1.getGroupId(), "admin2", "admin2", "", true);
-      repository.insertUser(testUser9, testUser10);
-
-      initializeDataBase = true;
-    }
+    // For testing.
+    // repository.getUserByUserName("testuser1").observe(this, user -> {
+    //   startActivity(LandingPageActivity.landingPageActivityIntentFactory(getApplicationContext(), user.getUsername(), user.getUserId()));
+    // });
 
     hiddenEditText = findViewById(R.id.hiddenEmailAddressEditText);
     hiddenSwitch = findViewById(R.id.adminSwitch);

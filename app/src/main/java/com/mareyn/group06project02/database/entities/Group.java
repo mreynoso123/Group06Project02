@@ -13,6 +13,10 @@ public class Group {
   private int groupId;
   private String name;
 
+  public Group(String name) {
+    this.name = name;
+  }
+
   @Override
   public String toString() {
     return "Group{" +

@@ -60,6 +60,39 @@ public class ChoreScoreRepository {
     });
   }
 
+  /**
+   * Insert a user only if it's userId does not already exist in the system.
+   */
+  public void insertUserIfNotExists(User user, Consumer<Boolean> callback) {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      var actualUser = userDAO.getUserByUsername2(user.getUsername());
+      if (actualUser == null) {
+        userDAO.insert(user);
+      }
+      callback.accept(actualUser == null);
+    });
+  }
+
+  public void insertUserIfNotExists(User user) {
+    insertUserIfNotExists(user, exists -> {
+    });
+  }
+
+  public void insertGroupIfNotExists(Group group, Consumer<Boolean> callback) {
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      var actualGroup = groupDAO.getGroupByUsername2(group.getName());
+      if (actualGroup == null) {
+        groupDAO.insert(group);
+      }
+      callback.accept(actualGroup == null);
+    });
+  }
+
+  public void insertGroupIfNotExists(Group group) {
+    insertGroupIfNotExists(group, exists -> {
+    });
+  }
+
   public void updateUser(User user) {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
       userDAO.update(user);

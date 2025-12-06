@@ -57,12 +57,7 @@ public abstract class ChoreScoreDatabase extends RoomDatabase {
       super.onCreate(db);
       Log.i("KEY", "DATABASE CREATED");
       databaseWriteExecutor.execute(() -> {
-        UserDAO dao = INSTANCE.userDAO();
-        User admin = new User(0, "admin1", "admin1", "", true);
-        dao.insert(admin);
-
-        User testUser1 = new User(1, "testuser1", "testuser1", "", false);
-        dao.insert(testUser1);
+        // Code for this is in "LoginActivity.java".
       });
     }
   };
