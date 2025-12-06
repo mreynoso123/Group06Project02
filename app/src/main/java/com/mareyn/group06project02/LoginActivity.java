@@ -1,17 +1,23 @@
 package com.mareyn.group06project02;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,11 +30,18 @@ import com.mareyn.group06project02.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 
+  public static final String ACTION_LOGIN_SUCCESS = "com.mareyn.group06project02.ACTION_LOGIN_SUCCESS";
+  private static final int REQUEST_POST_NOTIFICATIONS = 1001;
+
   private ActivityLoginBinding binding;
   private ChoreScoreRepository repository;
   private EditText hiddenEditText;
+  private Button hiddenCreateButton;
+  private Button hideLoginButton;
+  private static boolean initializeDataBase = false;
   @SuppressLint("UseSwitchCompatOrMaterialCode")
   private Switch hiddenSwitch;
+  private int defaultGroupId;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +56,20 @@ public class LoginActivity extends AppCompatActivity {
       return insets;
     });
 
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      if (ContextCompat.checkSelfPermission(
+        this,
+        Manifest.permission.POST_NOTIFICATIONS
+      ) != PackageManager.PERMISSION_GRANTED) {
+
+        ActivityCompat.requestPermissions(
+          this,
+          new String[]{Manifest.permission.POST_NOTIFICATIONS},
+          REQUEST_POST_NOTIFICATIONS
+        );
+      }
+    }
+
     repository = ChoreScoreRepository.getRepository(getApplication());
 
     // Create initial test data.
@@ -54,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
 
     var testGroup1 = new Group(1, "test-group1");
     repository.insertGroupIfNotExists(testGroup1);
+    defaultGroupId = 1;
     var testUser1 = new User(testGroup1.getGroupId(), "parent1", "password", "", true);
     var testUser2 = new User(testGroup1.getGroupId(), "child1", "password", "", false);
     var testUser3 = new User(testGroup1.getGroupId(), "child2", "password", "", false);
@@ -81,6 +109,8 @@ public class LoginActivity extends AppCompatActivity {
 
     hiddenEditText = findViewById(R.id.hiddenEmailAddressEditText);
     hiddenSwitch = findViewById(R.id.adminSwitch);
+    hiddenCreateButton = findViewById(R.id.createButton);
+    hideLoginButton = findViewById(R.id.loginButton);
 
     // this is for the login button
     binding.loginButton.setOnClickListener(new View.OnClickListener() {
@@ -97,9 +127,46 @@ public class LoginActivity extends AppCompatActivity {
         if (hiddenEditText.getVisibility() == View.GONE && hiddenSwitch.getVisibility() == View.GONE) {
           hiddenEditText.setVisibility(View.VISIBLE);
           hiddenSwitch.setVisibility(View.VISIBLE);
+          hiddenCreateButton.setVisibility((View.VISIBLE));
+          hideLoginButton.setVisibility(View.GONE);
+
+          binding.createButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+              String newUsername = binding.userNameLoginEditText.getText().toString();
+              String newPassword = binding.passwordLoginEditText.getText().toString();
+              String newEmailAddress = binding.hiddenEmailAddressEditText.getText().toString();
+              boolean isAdmin = binding.adminSwitch.isChecked();
+
+              if (newUsername.isBlank() || newPassword.isBlank() || newEmailAddress.isBlank()) {
+                toastMaker("Please fill in all fields");
+                return true;
+              }
+
+              repository.getUserByUsername(newUsername, user -> {
+                runOnUiThread(() -> {
+                  if (user != null) {
+                    toastMaker("Username already exists");
+                    return;
+                  }
+
+                  var newUser = new User(defaultGroupId, newUsername, newPassword, newEmailAddress, isAdmin);
+                  repository.insertUser(newUser);
+                  toastMaker("Account created for " + newUsername);
+                  Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
+                  startActivity(intent);
+                });
+              });
+
+              Log.e("NEW USER", "Creating a new user account");
+              return true;
+            }
+          });
         } else {
           hiddenEditText.setVisibility(View.GONE);
           hiddenSwitch.setVisibility(View.GONE);
+          hiddenCreateButton.setVisibility(View.GONE);
+          hideLoginButton.setVisibility(View.VISIBLE);
         }
       }
     });
@@ -127,6 +194,13 @@ public class LoginActivity extends AppCompatActivity {
       if (user != null) {
         String password = binding.passwordLoginEditText.getText().toString();
         if (password.equals(user.getPassword())) {
+
+          // this is for the push notification
+          Intent broadcastIntent = new Intent(getApplicationContext(), LoginSuccessReceiver.class);
+          broadcastIntent.setAction(ACTION_LOGIN_SUCCESS);
+          broadcastIntent.putExtra("message", "Welcome " + username);
+          sendBroadcast(broadcastIntent);
+
           var intent = LandingPageActivity.landingPageActivityIntentFactory(getApplicationContext(), username, user.getUserId());
           startActivity(intent);
         } else {

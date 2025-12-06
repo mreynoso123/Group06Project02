@@ -45,6 +45,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         verifyUser();
+        Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
+        startActivity(intent);
       }
     });
   }
@@ -54,12 +56,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     // String emailAddress = binding.emailAddressEditText.getText().toString();
     String newPassword = binding.resetPasswordEditText.getText().toString();
 
-    // if (username.isEmpty() && emailAddress.isEmpty()) {
-    //   toastMaker("Please enter a username or email address");
-    //   return;
-    // }
     if (username.isEmpty()) {
-      toastMaker("Please enter a username or email address");
+      toastMaker("Please enter a username");
       return;
     }
     if (newPassword.isEmpty()) {
