@@ -197,9 +197,7 @@ public class LoginActivity extends AppCompatActivity {
         if (password.equals(user.getPassword())) {
 
           // this is for the push notification
-          Intent broadcastIntent = new Intent(getApplicationContext(), LoginSuccessReceiver.class);
-          broadcastIntent.setAction(ACTION_LOGIN_SUCCESS);
-          broadcastIntent.putExtra("message", "Welcome " + username);
+          var broadcastIntent = LoginSuccessReceiver.LoginSuccessReceiverBroadcastIntentFactory(getApplicationContext(), username);
           sendBroadcast(broadcastIntent);
 
           var intent = LandingPageActivity.landingPageActivityIntentFactory(getApplicationContext(), username, user.getUserId());
