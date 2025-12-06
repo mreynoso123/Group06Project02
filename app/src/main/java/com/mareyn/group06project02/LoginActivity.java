@@ -1,8 +1,11 @@
 package com.mareyn.group06project02;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +15,8 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 
 import com.mareyn.group06project02.database.ChoreScoreRepository;
@@ -21,6 +26,9 @@ import com.mareyn.group06project02.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 
+  public static final String ACTION_LOGIN_SUCCESS = "com.mareyn.group06project02.ACTION_LOGIN_SUCCESS";
+  private static final int REQUEST_POST_NOTIFICATIONS = 1001;
+
   private ActivityLoginBinding binding;
   private ChoreScoreRepository repository;
   private EditText hiddenEditText;
@@ -29,7 +37,6 @@ public class LoginActivity extends AppCompatActivity {
   private static boolean initializeDataBase = false;
   @SuppressLint("UseSwitchCompatOrMaterialCode")
   private Switch hiddenSwitch;
-
   private int defaultGroupId;
 
   @Override
@@ -37,6 +44,20 @@ public class LoginActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     binding = ActivityLoginBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      if (ContextCompat.checkSelfPermission(
+        this,
+        Manifest.permission.POST_NOTIFICATIONS
+      ) != PackageManager.PERMISSION_GRANTED) {
+
+        ActivityCompat.requestPermissions(
+          this,
+          new String[]{Manifest.permission.POST_NOTIFICATIONS},
+          REQUEST_POST_NOTIFICATIONS
+        );
+      }
+    }
 
     repository = ChoreScoreRepository.getRepository(getApplication());
 
@@ -156,6 +177,11 @@ public class LoginActivity extends AppCompatActivity {
       if (user != null) {
         String password = binding.passwordLoginEditText.getText().toString();
         if (password.equals(user.getPassword())) {
+          Intent broadcastIntent = new Intent(getApplicationContext(), LoginSuccessReceiver.class);
+          broadcastIntent.setAction(ACTION_LOGIN_SUCCESS);
+          broadcastIntent.putExtra("message", "Welcome " + username);
+          sendBroadcast(broadcastIntent);
+
           var intent = LandingPageActivity.landingPageActivityIntentFactory(getApplicationContext(), username, user.getUserId());
           startActivity(intent);
         } else {

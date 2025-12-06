@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
   <application
     android:allowBackup="true"
     android:dataExtractionRules="@xml/data_extraction_rules"
@@ -45,6 +46,15 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
+
+    <receiver
+      android:name=".LoginSuccessReceiver"
+      android:exported="false">
+      <intent-filter>
+        <action android:name="com.mareyn.group06project02.ACTION_LOGIN_SUCCESS" />
+      </intent-filter>
+    </receiver>
+
   </application>
 
 </manifest>
