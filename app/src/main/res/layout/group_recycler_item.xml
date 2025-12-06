@@ -7,5 +7,10 @@
     android:id="@+id/recyclerItemFamilyGroupTextView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Hey!" />
+    android:layout_margin="8dp"
+    android:padding="10dp"
+    android:text="Hey!"
+    android:textSize="18sp"
+    android:elevation="2dp"
+    android:background="@drawable/rounded_recycler_view" />
 </FrameLayout>

@@ -86,6 +86,11 @@ public class ParentChoreDisplayActivity extends AppCompatActivity {
         }
       }
     });
+
+    binding.goBackButton2.setOnClickListener(view -> {
+      Intent intent = LandingPageActivity.landingPageActivityIntentFactory(getApplicationContext(), username, loggedInUserId);
+      startActivity(intent);
+    });
   }
 
   private void resetChoreDetails() {
@@ -104,7 +109,7 @@ public class ParentChoreDisplayActivity extends AppCompatActivity {
     try {
       score = Integer.parseInt(binding.scoreEditView.getText().toString());
     } catch (NumberFormatException e) {
-      Log.d("TEST", "Error reading value from scoreEditView");
+      Log.d(ChoreLogger.ID, "TEST: Error reading value from scoreEditView");
       return false;
     }
     if (choreTitle.isEmpty() || dueDate.isEmpty() || choreDescription.isEmpty() || assignTo.isEmpty()) {

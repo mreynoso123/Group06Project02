@@ -9,6 +9,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.mareyn.group06project02.ChoreLogger;
 import com.mareyn.group06project02.database.entities.Chore;
 import com.mareyn.group06project02.database.entities.Group;
 import com.mareyn.group06project02.database.entities.User;
@@ -55,7 +56,7 @@ public abstract class ChoreScoreDatabase extends RoomDatabase {
     @Override
     public void onCreate(@NonNull SupportSQLiteDatabase db) {
       super.onCreate(db);
-      Log.i("KEY", "DATABASE CREATED");
+      Log.i(ChoreLogger.ID, "DATABASE CREATED");
       databaseWriteExecutor.execute(() -> {
         // Code for this is in "LoginActivity.java".
       });

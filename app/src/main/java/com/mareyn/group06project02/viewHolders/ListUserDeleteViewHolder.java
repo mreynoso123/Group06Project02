@@ -9,21 +9,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mareyn.group06project02.R;
 
-public class UserViewHolder extends RecyclerView.ViewHolder {
+public class ListUserDeleteViewHolder extends RecyclerView.ViewHolder {
   private final TextView groupViewItem;
 
-  private UserViewHolder(View choreView) {
+  private ListUserDeleteViewHolder(View choreView) {
     super(choreView);
-    groupViewItem = choreView.findViewById(R.id.recyclerItemUserChildTextView);
+    groupViewItem = choreView.findViewById(R.id.recyclerUserDeleteTextView);
   }
 
   public void bind(String text) {
     groupViewItem.setText(text);
   }
 
-  static UserViewHolder create(ViewGroup parent) {
+  static ListUserDeleteViewHolder create(ViewGroup parent) {
     View view = LayoutInflater.from(parent.getContext())
-      .inflate(R.layout.user_recycler_item, parent, false);
-    return new UserViewHolder(view);
+      .inflate(R.layout.user_delete_recycler_item, parent, false);
+    return new ListUserDeleteViewHolder(view);
   }
 }

@@ -25,7 +25,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
-    android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
     android:text="TextView"
     android:textFontWeight="@integer/material_motion_duration_medium_2"
@@ -48,27 +47,6 @@
     app:layout_constraintTop_toBottomOf="@+id/landingPageTitle"
     tools:visibility="visible" />
 
-  <View
-    android:id="@+id/splitterView"
-    android:layout_width="match_parent"
-    android:layout_height="2dp"
-    android:layout_marginTop="8dp"
-    android:background="#c0c0c0"
-    app:layout_constraintBottom_toTopOf="@+id/logoutButton"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/goToAdminPageButton"
-    app:layout_constraintVertical_bias="0.0" />
-
-  <TextView
-    android:id="@+id/pageDescription"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="16dp"
-    android:text="Welcome to the main landing page!"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/logoutButton" />
-
   <Button
     android:id="@+id/logoutButton"
     android:layout_width="100pt"
@@ -83,7 +61,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
-    android:layout_marginBottom="8dp"
     android:text="dddd"
     android:textColor="#7F7D7D"
     app:layout_constraintBottom_toTopOf="@+id/adminStatus"
@@ -97,19 +74,31 @@
     android:layout_marginStart="16dp"
     android:layout_marginTop="16dp"
     android:text="TextView"
+    android:textSize="16sp"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/pageDescription" />
+    app:layout_constraintTop_toBottomOf="@+id/textView" />
 
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/activeFamilyGroupsRecyclerView"
     android:layout_width="0dp"
     android:layout_height="330dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="8dp"
+    android:layout_marginStart="8dp"
     android:padding="2dp"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintHorizontal_bias="0.0"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/whatFamilyText"
     tools:listitem="@layout/group_recycler_item" />
+
+  <TextView
+    android:id="@+id/textView"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="16dp"
+    android:text="Welcome to the main landing page! Here, click a child to see their tasks. If you are an admin or yourself, you can edit the tasks that were completed!"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/logoutButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // Create initial test data.
     // Initialize demo data once per app run. Password changes persist forever
-    Log.e("Initializing database...", repository.toString());
+    Log.e(ChoreLogger.ID, "Initializing database..." + repository.toString());
     // TO RESET THE DATABASE:
     // Uncomment this out and then run. The app crashes (oops!), but if you
     // recommend the code and then run again, it should work!
@@ -159,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
               });
 
-              Log.e("NEW USER", "Creating a new user account");
+              Log.e(ChoreLogger.ID, "NEW USER: Creating a new user account");
               return true;
             }
           });

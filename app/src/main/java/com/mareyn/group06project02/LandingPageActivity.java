@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mareyn.group06project02.database.ChoreScoreRepository;
 import com.mareyn.group06project02.databinding.ActivityLandingPageBinding;
-import com.mareyn.group06project02.viewHolders.GroupViewModel;
 import com.mareyn.group06project02.viewHolders.UserAdapter;
 import com.mareyn.group06project02.viewHolders.UserViewModel;
 
@@ -44,7 +43,12 @@ public class LandingPageActivity extends AppCompatActivity {
     var username = getIntent().getStringExtra(LANDING_PAGE_ACTIVITY_USERNAME);
     int userId = getIntent().getIntExtra(LANDING_PAGE_ACTIVITY_USER_ID, -1);
 
-    Log.e("USER-ID", "THIS IS THE USER ID: " + username);
+    Log.e(ChoreLogger.ID, "THIS IS THE USER ID: " + username);
+
+    // binding.goToAdminPageButton.setOnClickListener(view -> {
+    //   var intent = AdminControlsActivity.adminControlsActivityIntentFactory(getApplicationContext(), userId);
+    //   startActivity(intent);
+    // });
 
     binding.logoutButton.setOnClickListener(view -> {
       Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
@@ -59,7 +63,7 @@ public class LandingPageActivity extends AppCompatActivity {
         if (user == null) {
           return;
         }
-        Log.e("TESTING", "Is admin: " + user.isAdmin());
+        Log.e(ChoreLogger.ID, "Is admin: " + user.isAdmin());
 
         binding.landingPageTitle.setText("Welcome, " + user.getUsername());
         if (!user.getEmail().isEmpty()) {
@@ -68,7 +72,7 @@ public class LandingPageActivity extends AppCompatActivity {
           binding.emailText.setText("Email: " + "N/A");
         }
         repository.getGroupById(user.getFamilyId(), group -> {
-          binding.whatFamilyText.setText("You are part of GROUP: " + group.getName());
+          binding.whatFamilyText.setText("You are in GROUP: " + group.getName());
         });
         if (user.isAdmin()) {
           binding.goToAdminPageButton.setVisibility(View.VISIBLE);
@@ -77,14 +81,42 @@ public class LandingPageActivity extends AppCompatActivity {
           binding.adminStatus.setText("You ARE NOT an admin");
         }
 
-        var groupsViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
+        binding.goToAdminPageButton.setOnClickListener(view -> {
+          var intent = AdminControlsActivity.adminControlsActivityIntentFactory(getApplicationContext(), user.getUserId());
+          startActivity(intent);
+        });
+
         var usersViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         RecyclerView recyclerView = binding.activeFamilyGroupsRecyclerView;
         final UserAdapter adapter = new UserAdapter(new UserAdapter.UserDiff(), getApplicationContext(), user3 -> {
-          Log.i("LOGGER", "CLICKED THIS: " + user3.getUsername());
-          Intent intent = ChildChoreDisplayActivity.ChildTaskDisplayActivityIntentFactory(getApplication(), user3.getUsername(), user3.getUserId());
-          startActivity(intent);
+          Log.i(ChoreLogger.ID, "CLICKED THIS: " + user3.getUsername());
+          if (user3.isAdmin()) {
+            var intent = ParentChoreDisplayActivity.parentChoreDisplayActivityIntentFactory(getApplicationContext(), user3.getUsername(), user3.getUserId());
+            startActivity(intent);
+          } else {
+            if (user3.getUsername() == user.getUsername() || user.isAdmin()) {
+              var intent = ChildChoreDisplayActivity.ChildTaskDisplayActivityIntentFactory(
+                getApplication(),
+                user.getUsername(),
+                user.getUserId(),
+                user3.getUsername(),
+                user3.getUserId(),
+                true
+              );
+              startActivity(intent);
+            } else {
+              var intent = ChildChoreDisplayActivity.ChildTaskDisplayActivityIntentFactory(
+                getApplication(),
+                user.getUsername(),
+                user.getUserId(),
+                user3.getUsername(),
+                user3.getUserId(),
+                false
+              );
+              startActivity(intent);
+            }
+          }
         });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -92,78 +124,6 @@ public class LandingPageActivity extends AppCompatActivity {
         usersViewModel.getUsersWithGroupId(user.getFamilyId()).observe(this, users -> {
           adapter.submitList(users);
         });
-
-        // List.
-        //     class Item {
-        //       private String title;
-        //       private String description;
-        //
-        //       public Item(String title, String description) {
-        //         this.title = title;
-        //         this.description = description;
-        //       }
-        //
-        //       public String getTitle() {
-        //         return title;
-        //       }
-        //
-        //       public String getDescription() {
-        //         return description;
-        //       }
-        //     }
-        //     class ItemAdapter extends ArrayAdapter<Item> {
-        //       public ItemAdapter(Context context, List<Item> items) {
-        //         super(context, 0, items);
-        //       }
-        //
-        //       @Override
-        //       public View getView(int position, View convertView, ViewGroup parent) {
-        //         // if (convertView == null) {
-        //         //   convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
-        //         // }
-        //         //
-        //         // Item item = getItem(position);
-        //         //
-        //         // TextView titleView = convertView.findViewById(R.id.itemTitle);
-        //         // TextView descView = convertView.findViewById(R.id.itemDescription);
-        //         //
-        //         // titleView.setText(item.getTitle());
-        //         // descView.setText(item.getDescription());
-        //         //
-        //         // return convertView;
-        //         return null;
-        //       }
-        //     }
-        //     var items = new ArrayList<Item>();
-        //     items.add(new Item("", ""));
-        //     ItemAdapter adapter = new ItemAdapter(this, items);
-        //
-        //     binding.goToAdminPageButton.setOnClickListener(view -> {
-        //       var intent = AdminControlsActivity.adminControlsActivityIntentFactory(getApplicationContext(), user.getUserId());
-        //       startActivity(intent);
-        //     });
-        //   });
-        // });
-        //
-        // // CHILD/PARENT DISPLAY CONNECTION
-        // // TODO: Link to actual button when ready
-        // LiveData<User> userObserver = repository.getUserByUserName(username);
-        // userObserver.observe(this, user -> {
-        //   binding.landingPageTitle.setOnLongClickListener(new View.OnLongClickListener() {
-        //     @Override
-        //     public boolean onLongClick(View v) {
-        //       Log.e("TESTING", "userID: " + userId);
-        //       if (user.isAdmin()) {
-        //         Log.e("TESTING", "WE'RE IN AS ADMIN");
-        //         Intent intent = ParentChoreDisplayActivity.parentChoreDisplayActivityIntentFactory(getApplicationContext(), username, userId);
-        //         startActivity(intent);
-        //       } else {
-        //         Log.e("TESTING", "WE'RE IN AS NORMIE");
-        //         Intent intent = ChildChoreDisplayActivity.ChildTaskDisplayActivityIntentFactory(getApplicationContext(), username, userId);
-        //         startActivity(intent);
-        //       }
-        //       return false;
-        //     }
       });
     });
   }

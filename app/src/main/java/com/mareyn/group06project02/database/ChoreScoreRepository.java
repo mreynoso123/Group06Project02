@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import com.mareyn.group06project02.ChoreLogger;
 import com.mareyn.group06project02.database.entities.Chore;
 import com.mareyn.group06project02.database.entities.Group;
 import com.mareyn.group06project02.database.entities.User;
@@ -46,7 +47,7 @@ public class ChoreScoreRepository {
     try {
       return future.get();
     } catch (InterruptedException | ExecutionException err) {
-      Log.i("KEY", "Problem with getRepository()");
+      Log.i(ChoreLogger.ID, "Problem with getRepository()");
       // err.printStackTrace();
     }
 
@@ -116,6 +117,22 @@ public class ChoreScoreRepository {
 
   public LiveData<List<Group>> getAllGroups() {
     return groupDAO.getAllChores();
+  }
+
+  public LiveData<List<User>> getAllNormalUsers() {
+    return userDAO.getAllNormalUsers();
+  }
+
+  public LiveData<List<User>> getNormalUsersByGroup(int groupId) {
+    return userDAO.getNormalUsersByGroup(groupId);
+  }
+
+  public void deleteUserByUsername(String username) {
+    userDAO.deleteUserByUsername(username);
+  }
+
+  public void deleteUser(User user) {
+    userDAO.deleteUser(user);
   }
 
   // Chore Repository methods

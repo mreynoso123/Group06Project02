@@ -8,7 +8,6 @@
   tools:context=".ChildChoreDisplayActivity"
   android:background="@color/light_purple">
 
-
   <TextView
     android:id="@+id/currentScoreTextView"
     android:layout_width="200dp"
@@ -113,5 +112,17 @@
     app:layout_constraintBottom_toTopOf="@+id/currentScoreTextView"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent" />
+
+  <Button
+    android:id="@+id/goBackButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="0pt"
+    android:layout_marginTop="4dp"
+    android:padding="0pt"
+    android:text="Go Back"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/childCompletedChoresRecyclerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,8 +23,11 @@ import com.mareyn.group06project02.viewHolders.ChoreAdapter;
 import com.mareyn.group06project02.viewHolders.ChoreViewModel;
 
 public class ChildChoreDisplayActivity extends AppCompatActivity {
+  private static final String CHILD_DISPLAY_PREVIOUS_USER_ID = "com.mareyn.group06project02.CHILD_DISPLAY_PREVIOUS_USER_ID";
+  private static final String CHILD_DISPLAY_PREVIOUS_USERNAME = "com.mareyn.group06project02.CHILD_DISPLAY_PREVIOUS_USERNAME";
   private static final String CHILD_DISPLAY_USER_ID = "com.mareyn.group06project02.CHILD_DISPLAY_USER_ID";
   private static final String CHILD_DISPLAY_USERNAME = "com.mareyn.group06project02.CHILD_DISPLAY_USERNAME";
+  private static final String CHILD_DISPLAY_CAN_EDIT = "com.mareyn.group06project02.CHILD_DISPLAY_CAN_EDIT";
 
   private ActivityChildTaskDisplayBinding binding;
   private ChoreScoreRepository repository;
@@ -69,7 +72,7 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
       adapter.submitList(chores);
     });
 
-    // // Completed Chores Recycler View
+    // Completed Chores Recycler View
     choreViewModelCompletedChores = new ViewModelProvider(this).get(ChoreViewModel.class);
 
     RecyclerView recyclerView2 = binding.childCompletedChoresRecyclerView;
@@ -91,6 +94,19 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
         }
       }
     });
+
+    binding.goBackButton.setOnClickListener(view -> {
+      var user = getIntent().getStringExtra(CHILD_DISPLAY_PREVIOUS_USERNAME);
+      var id = getIntent().getIntExtra(CHILD_DISPLAY_PREVIOUS_USER_ID, -1);
+      Intent intent = LandingPageActivity.landingPageActivityIntentFactory(getApplicationContext(), user, id);
+      startActivity(intent);
+    });
+
+    // If we only want to view chores of a user
+    if (!getIntent().getBooleanExtra(CHILD_DISPLAY_CAN_EDIT, false)) {
+      binding.choreIdEditText.setVisibility(View.GONE);
+      binding.choreCompletionButton.setVisibility(View.GONE);
+    }
   }
 
   // Sets total score based on all completed chores respective to logged in user
@@ -109,7 +125,7 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
       choreId = Integer.parseInt(binding.choreIdEditText.getText().toString());
       return true;
     } catch (NumberFormatException e) {
-      Log.d("TEST", "Error reading value from scoreEditView");
+      Log.d(ChoreLogger.ID, "Error reading value from scoreEditView");
       return false;
     }
   }
@@ -118,10 +134,13 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
   }
 
-  public static Intent ChildTaskDisplayActivityIntentFactory(Context context, String username, int userId) {
+  public static Intent ChildTaskDisplayActivityIntentFactory(Context context, String previousUsername, int previousUserId, String username, int userId, boolean canEdit) {
     Intent intent = new Intent(context, ChildChoreDisplayActivity.class);
+    intent.putExtra(CHILD_DISPLAY_PREVIOUS_USERNAME, previousUsername);
+    intent.putExtra(CHILD_DISPLAY_PREVIOUS_USER_ID, previousUserId);
     intent.putExtra(CHILD_DISPLAY_USERNAME, username);
     intent.putExtra(CHILD_DISPLAY_USER_ID, userId);
+    intent.putExtra(CHILD_DISPLAY_CAN_EDIT, canEdit);
     return intent;
   }
 }
