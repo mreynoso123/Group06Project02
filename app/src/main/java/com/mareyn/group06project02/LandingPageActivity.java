@@ -5,22 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mareyn.group06project02.database.ChoreScoreRepository;
-import com.mareyn.group06project02.database.entities.User;
 import com.mareyn.group06project02.databinding.ActivityLandingPageBinding;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.mareyn.group06project02.viewHolders.GroupAdapter;
+import com.mareyn.group06project02.viewHolders.GroupViewModel;
 
 public class LandingPageActivity extends AppCompatActivity {
   private static String LANDING_PAGE_ACTIVITY_USERNAME = "landing-page-activity";
@@ -78,77 +76,88 @@ public class LandingPageActivity extends AppCompatActivity {
           binding.adminStatus.setText("You ARE NOT an admin");
         }
 
-        // List.
-        class Item {
-          private String title;
-          private String description;
+        var groupsViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
 
-          public Item(String title, String description) {
-            this.title = title;
-            this.description = description;
-          }
+        RecyclerView recyclerView = binding.activeFamilyGroupsRecyclerView;
+        final GroupAdapter adapter = new GroupAdapter(new GroupAdapter.GroupDiff());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-          public String getTitle() {
-            return title;
-          }
-
-          public String getDescription() {
-            return description;
-          }
-        }
-        class ItemAdapter extends ArrayAdapter<Item> {
-          public ItemAdapter(Context context, List<Item> items) {
-            super(context, 0, items);
-          }
-
-          @Override
-          public View getView(int position, View convertView, ViewGroup parent) {
-            // if (convertView == null) {
-            //   convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
-            // }
-            //
-            // Item item = getItem(position);
-            //
-            // TextView titleView = convertView.findViewById(R.id.itemTitle);
-            // TextView descView = convertView.findViewById(R.id.itemDescription);
-            //
-            // titleView.setText(item.getTitle());
-            // descView.setText(item.getDescription());
-            //
-            // return convertView;
-            return null;
-          }
-        }
-        var items = new ArrayList<Item>();
-        items.add(new Item("", ""));
-        ItemAdapter adapter = new ItemAdapter(this, items);
-
-        binding.goToAdminPageButton.setOnClickListener(view -> {
-          var intent = AdminControlsActivity.adminControlsActivityIntentFactory(getApplicationContext(), user.getUserId());
-          startActivity(intent);
+        groupsViewModel.getAllGroups().observe(this, chores -> {
+          adapter.submitList(chores);
         });
-      });
-    });
 
-    // CHILD/PARENT DISPLAY CONNECTION
-    // TODO: Link to actual button when ready
-    LiveData<User> userObserver = repository.getUserByUserName(username);
-    userObserver.observe(this, user -> {
-      binding.landingPageTitle.setOnLongClickListener(new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-          Log.e("TESTING", "userID: " + userId);
-          if (user.isAdmin()) {
-            Log.e("TESTING", "WE'RE IN AS ADMIN");
-            Intent intent = ParentChoreDisplayActivity.parentChoreDisplayActivityIntentFactory(getApplicationContext(), username, userId);
-            startActivity(intent);
-          } else {
-            Log.e("TESTING", "WE'RE IN AS NORMIE");
-            Intent intent = ChildChoreDisplayActivity.ChildTaskDisplayActivityIntentFactory(getApplicationContext(), username, userId);
-            startActivity(intent);
-          }
-          return false;
-        }
+        // List.
+        //     class Item {
+        //       private String title;
+        //       private String description;
+        //
+        //       public Item(String title, String description) {
+        //         this.title = title;
+        //         this.description = description;
+        //       }
+        //
+        //       public String getTitle() {
+        //         return title;
+        //       }
+        //
+        //       public String getDescription() {
+        //         return description;
+        //       }
+        //     }
+        //     class ItemAdapter extends ArrayAdapter<Item> {
+        //       public ItemAdapter(Context context, List<Item> items) {
+        //         super(context, 0, items);
+        //       }
+        //
+        //       @Override
+        //       public View getView(int position, View convertView, ViewGroup parent) {
+        //         // if (convertView == null) {
+        //         //   convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
+        //         // }
+        //         //
+        //         // Item item = getItem(position);
+        //         //
+        //         // TextView titleView = convertView.findViewById(R.id.itemTitle);
+        //         // TextView descView = convertView.findViewById(R.id.itemDescription);
+        //         //
+        //         // titleView.setText(item.getTitle());
+        //         // descView.setText(item.getDescription());
+        //         //
+        //         // return convertView;
+        //         return null;
+        //       }
+        //     }
+        //     var items = new ArrayList<Item>();
+        //     items.add(new Item("", ""));
+        //     ItemAdapter adapter = new ItemAdapter(this, items);
+        //
+        //     binding.goToAdminPageButton.setOnClickListener(view -> {
+        //       var intent = AdminControlsActivity.adminControlsActivityIntentFactory(getApplicationContext(), user.getUserId());
+        //       startActivity(intent);
+        //     });
+        //   });
+        // });
+        //
+        // // CHILD/PARENT DISPLAY CONNECTION
+        // // TODO: Link to actual button when ready
+        // LiveData<User> userObserver = repository.getUserByUserName(username);
+        // userObserver.observe(this, user -> {
+        //   binding.landingPageTitle.setOnLongClickListener(new View.OnLongClickListener() {
+        //     @Override
+        //     public boolean onLongClick(View v) {
+        //       Log.e("TESTING", "userID: " + userId);
+        //       if (user.isAdmin()) {
+        //         Log.e("TESTING", "WE'RE IN AS ADMIN");
+        //         Intent intent = ParentChoreDisplayActivity.parentChoreDisplayActivityIntentFactory(getApplicationContext(), username, userId);
+        //         startActivity(intent);
+        //       } else {
+        //         Log.e("TESTING", "WE'RE IN AS NORMIE");
+        //         Intent intent = ChildChoreDisplayActivity.ChildTaskDisplayActivityIntentFactory(getApplicationContext(), username, userId);
+        //         startActivity(intent);
+        //       }
+        //       return false;
+        //     }
       });
     });
   }

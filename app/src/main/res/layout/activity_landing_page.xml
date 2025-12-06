@@ -56,29 +56,27 @@
     android:background="#c0c0c0"
     app:layout_constraintBottom_toTopOf="@+id/logoutButton"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/goToAdminPageButton" />
+    app:layout_constraintTop_toBottomOf="@+id/goToAdminPageButton"
+    app:layout_constraintVertical_bias="0.0" />
 
   <TextView
     android:id="@+id/pageDescription"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
+    android:layout_marginTop="16dp"
     android:text="Welcome to the main landing page!"
-    app:layout_constraintBottom_toTopOf="@+id/logoutButton"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/splitterView" />
+    app:layout_constraintTop_toBottomOf="@+id/logoutButton" />
 
   <Button
     android:id="@+id/logoutButton"
     android:layout_width="100pt"
     android:layout_height="20pt"
     android:layout_marginStart="16dp"
-    android:layout_marginTop="60dp"
     android:text="Log out"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/pageDescription" />
+    app:layout_constraintTop_toBottomOf="@+id/goToAdminPageButton" />
 
   <TextView
     android:id="@+id/emailText"
@@ -97,8 +95,21 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
     android:text="TextView"
-    app:layout_constraintBottom_toTopOf="@+id/logoutButton"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/pageDescription" />
+
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/activeFamilyGroupsRecyclerView"
+    android:layout_width="0dp"
+    android:layout_height="330dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:padding="2dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/whatFamilyText"
+    tools:listitem="@layout/group_text_row_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

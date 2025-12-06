@@ -1,5 +1,6 @@
 package com.mareyn.group06project02.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -16,6 +17,9 @@ public interface GroupDAO {
 
   @Query("SELECT * FROM " + ChoreScoreDatabase.GROUP_TABLE)
   List<Group> getAllRecords();
+
+  @Query("SELECT * FROM " + ChoreScoreDatabase.GROUP_TABLE)
+  LiveData<List<Group>> getAllChores();
 
   @Query("DELETE FROM " + ChoreScoreDatabase.GROUP_TABLE)
   void deleteAllRecords();

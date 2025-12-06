@@ -114,6 +114,10 @@ public class ChoreScoreRepository {
     return userDAO.getUserIdByUsername(username);
   }
 
+  public LiveData<List<Group>> getAllGroups() {
+    return groupDAO.getAllChores();
+  }
+
   // Chore Repository methods
   public void insertChore(Chore chore) {
     ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
