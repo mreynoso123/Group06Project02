@@ -34,7 +34,7 @@ public abstract class ChoreScoreDatabase extends RoomDatabase {
 
   public abstract UserDAO userDAO();
 
-  static ChoreScoreDatabase getDatabase(final Context context) {
+  public static ChoreScoreDatabase getDatabase(final Context context) {
     if (INSTANCE == null) {
       synchronized (ChoreScoreDatabase.class) {
         if (INSTANCE == null) {

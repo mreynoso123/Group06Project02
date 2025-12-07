@@ -56,6 +56,17 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/goToAdminPageButton" />
 
+  <Button
+    android:id="@+id/toChoreDisplayButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Chores!"
+    android:textFontWeight="@integer/material_motion_duration_medium_2"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/activeFamilyGroupsRecyclerView" />
+
   <TextView
     android:id="@+id/emailText"
     android:layout_width="wrap_content"
@@ -81,7 +92,7 @@
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/activeFamilyGroupsRecyclerView"
     android:layout_width="372dp"
-    android:layout_height="330dp"
+    android:layout_height="300dp"
     android:padding="2dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
