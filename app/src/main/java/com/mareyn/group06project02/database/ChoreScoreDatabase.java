@@ -9,6 +9,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.mareyn.group06project02.ChoreLogger;
 import com.mareyn.group06project02.database.entities.Chore;
 import com.mareyn.group06project02.database.entities.Group;
 import com.mareyn.group06project02.database.entities.User;
@@ -16,7 +17,7 @@ import com.mareyn.group06project02.database.entities.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Chore.class, User.class, Group.class}, version = 2, exportSchema = false)
+@Database(entities = {Chore.class, User.class, Group.class}, version = 4, exportSchema = false)
 public abstract class ChoreScoreDatabase extends RoomDatabase {
   public static final String DATABASE_NAME = "choreScoreDatabase";
   public static final String CHORE_TABLE = "chore";
@@ -55,14 +56,9 @@ public abstract class ChoreScoreDatabase extends RoomDatabase {
     @Override
     public void onCreate(@NonNull SupportSQLiteDatabase db) {
       super.onCreate(db);
-      Log.i("KEY", "DATABASE CREATED");
+      Log.i(ChoreLogger.ID, "DATABASE CREATED");
       databaseWriteExecutor.execute(() -> {
-        UserDAO dao = INSTANCE.userDAO();
-        User admin = new User(0, "admin1", "admin1", "", true);
-        dao.insert(admin);
-
-        User testUser1 = new User(1, "testuser1", "testuser1", "", false);
-        dao.insert(testUser1);
+        // Code for this is in "LoginActivity.java".
       });
     }
   };

@@ -14,9 +14,13 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.LiveData;
 
 import com.mareyn.group06project02.database.ChoreScoreRepository;
@@ -45,6 +49,13 @@ public class LoginActivity extends AppCompatActivity {
     binding = ActivityLoginBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
 
+    EdgeToEdge.enable(this);
+    ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+      Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+      v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+      return insets;
+    });
+
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
       if (ContextCompat.checkSelfPermission(
         this,
@@ -62,34 +73,40 @@ public class LoginActivity extends AppCompatActivity {
     repository = ChoreScoreRepository.getRepository(getApplication());
 
     // Create initial test data.
-    // Initialize demo data once per app run. Password changes persist until the app is restarted.
-    if (!initializeDataBase) {
-      repository.deleteAllUsers();
-      Log.e("Initializing database", repository.toString());
+    // Initialize demo data once per app run. Password changes persist forever
+    Log.e(ChoreLogger.ID, "Initializing database..." + repository.toString());
+    // TO RESET THE DATABASE:
+    // Uncomment this out and then run. The app crashes (oops!), but if you
+    // recommend the code and then run again, it should work!
+    // repository.deleteAllUsers();
+    // repository.deleteAllGroups();
+    // repository.deleteAllChores();
 
-      var testGroup1 = new Group();
-      testGroup1.setName("test-group");
-      repository.insertGroup(testGroup1);
-      defaultGroupId = testGroup1.getGroupId();
-      var testUser1 = new User(testGroup1.getGroupId(), "parent1", "password", "", true);
-      var testUser2 = new User(testGroup1.getGroupId(), "child1", "password", "", false);
-      var testUser3 = new User(testGroup1.getGroupId(), "child2", "password", "", false);
-      repository.insertUser(testUser1, testUser2, testUser3);
+    var testGroup1 = new Group(1, "test-group1");
+    repository.insertGroupIfNotExists(testGroup1);
+    defaultGroupId = 1;
+    var testUser2 = new User(testGroup1.getGroupId(), "child1", "password", "", false);
+    var testUser3 = new User(testGroup1.getGroupId(), "child2", "password", "", false);
+    repository.insertUserIfNotExists(testUser2);
+    repository.insertUserIfNotExists(testUser3);
 
-      var testGroup2 = new Group();
-      testGroup2.setName("test-group2");
-      repository.insertGroup(testGroup2);
-      var testUser7 = new User(testGroup2.getGroupId(), "parent2", "password", "", true);
-      var testUser8 = new User(testGroup2.getGroupId(), "child7", "password", "", false);
-      repository.insertUser(testUser7, testUser8);
+    var testGroup2 = new Group(2, "test-group2");
+    repository.insertGroupIfNotExists(testGroup2);
+    var testUser7 = new User(testGroup2.getGroupId(), "parent2", "password", "", true);
+    var testUser8 = new User(testGroup2.getGroupId(), "child7", "password", "", false);
+    repository.insertUserIfNotExists(testUser7);
+    repository.insertUserIfNotExists(testUser8);
 
-      // Required for the demo video.
-      var testUser9 = new User(testGroup1.getGroupId(), "testuser1", "testuser1", "", false);
-      var testUser10 = new User(testGroup1.getGroupId(), "admin2", "admin2", "", true);
-      repository.insertUser(testUser9, testUser10);
+    // Required for the demo video.
+    var testUser9 = new User(testGroup1.getGroupId(), "testuser1", "testuser1", "", false);
+    var testUser10 = new User(testGroup1.getGroupId(), "admin2", "admin2", "eankeen@gmail.com", true);
+    repository.insertUserIfNotExists(testUser9);
+    repository.insertUserIfNotExists(testUser10);
 
-      initializeDataBase = true;
-    }
+    // For testing.
+    // repository.getUserByUserName("testuser1").observe(this, user -> {
+    //   startActivity(LandingPageActivity.landingPageActivityIntentFactory(getApplicationContext(), user.getUsername(), user.getUserId()));
+    // });
 
     hiddenEditText = findViewById(R.id.hiddenEmailAddressEditText);
     hiddenSwitch = findViewById(R.id.adminSwitch);
@@ -142,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
               });
 
-              Log.e("NEW USER", "Creating a new user account");
+              Log.e(ChoreLogger.ID, "NEW USER: Creating a new user account");
               return true;
             }
           });
@@ -160,6 +177,7 @@ public class LoginActivity extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         Intent intent = ForgotPasswordActivity.forgotPasswordIntentFactory(getApplicationContext());
+        // getIntent().putExtra();
         startActivity(intent);
       }
     });
@@ -179,9 +197,7 @@ public class LoginActivity extends AppCompatActivity {
         if (password.equals(user.getPassword())) {
 
           // this is for the push notification
-          Intent broadcastIntent = new Intent(getApplicationContext(), LoginSuccessReceiver.class);
-          broadcastIntent.setAction(ACTION_LOGIN_SUCCESS);
-          broadcastIntent.putExtra("message", "Welcome " + username);
+          var broadcastIntent = LoginSuccessReceiver.LoginSuccessReceiverBroadcastIntentFactory(getApplicationContext(), username);
           sendBroadcast(broadcastIntent);
 
           var intent = LandingPageActivity.landingPageActivityIntentFactory(getApplicationContext(), username, user.getUserId());

@@ -9,8 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.mareyn.group06project02.database.ChoreScoreRepository;
 import com.mareyn.group06project02.databinding.ActivityForgotPasswordBinding;
@@ -27,6 +31,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     binding = ActivityForgotPasswordBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
+
+    EdgeToEdge.enable(this);
+    ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+      Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+      v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+      return insets;
+    });
 
     repository = ChoreScoreRepository.getRepository(getApplication());
 

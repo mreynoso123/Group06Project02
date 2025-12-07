@@ -173,5 +173,15 @@
     app:layout_constraintTop_toTopOf="@id/allActiveChoresTextView"
     tools:listitem="@layout/chore_recycler_item" />
 
+  <Button
+    android:id="@+id/goBackButton2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Go Back"
+    app:layout_constraintBottom_toTopOf="@+id/allActiveChoresTextView"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.498"
+    app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

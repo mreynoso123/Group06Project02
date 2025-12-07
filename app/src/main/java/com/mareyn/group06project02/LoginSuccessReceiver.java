@@ -58,4 +58,11 @@ public class LoginSuccessReceiver extends BroadcastReceiver {
       notificationManager.createNotificationChannel(channel);
     }
   }
+
+  static Intent LoginSuccessReceiverBroadcastIntentFactory(Context context, String username) {
+    Intent broadcastIntent = new Intent(context, LoginSuccessReceiver.class);
+    broadcastIntent.setAction(ACTION_LOGIN_SUCCESS);
+    broadcastIntent.putExtra("message", "Welcome " + username);
+    return broadcastIntent;
+  }
 }
