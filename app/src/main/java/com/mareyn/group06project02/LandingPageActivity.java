@@ -126,6 +126,16 @@ public class LandingPageActivity extends AppCompatActivity {
         });
       });
     });
+
+    // To Fun Page
+    binding.landingPageTitle.setOnLongClickListener(new View.OnLongClickListener() {
+      @Override
+      public boolean onLongClick(View v) {
+        Intent intent = FunActivity.funActivityIntentFactory(getApplicationContext(), username, userId);
+        startActivity(intent);
+        return false;
+      }
+    });
   }
 
   static Intent landingPageActivityIntentFactory(Context context, String username, int userId) {

@@ -6,17 +6,17 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context=".LandingPageActivity"
-  android:background="@color/light_purple">
+  android:background="@drawable/gradient_background">
 
   <TextView
     android:id="@+id/landingPageTitle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
     android:layout_marginTop="16dp"
     android:text="TextView"
     android:textFontWeight="@integer/material_motion_duration_medium_2"
     android:textSize="36sp"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,12 +24,12 @@
     android:id="@+id/adminStatus"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
     android:layout_marginBottom="8dp"
     android:text="TextView"
     android:textFontWeight="@integer/material_motion_duration_medium_2"
     android:textSize="18sp"
     app:layout_constraintBottom_toTopOf="@+id/goToAdminPageButton"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/landingPageTitle"
     app:layout_constraintVertical_bias="0.968" />
@@ -38,11 +38,11 @@
     android:id="@+id/goToAdminPageButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
     android:layout_marginTop="72dp"
     android:text="Go to Secret Admin Page"
     android:textFontWeight="@integer/material_motion_duration_medium_2"
     android:visibility="invisible"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/landingPageTitle"
     tools:visibility="visible" />
@@ -51,8 +51,8 @@
     android:id="@+id/logoutButton"
     android:layout_width="100pt"
     android:layout_height="20pt"
-    android:layout_marginStart="16dp"
     android:text="Log out"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/goToAdminPageButton" />
 
@@ -60,10 +60,10 @@
     android:id="@+id/emailText"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
     android:text="dddd"
     android:textColor="#7F7D7D"
     app:layout_constraintBottom_toTopOf="@+id/adminStatus"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/landingPageTitle" />
 
@@ -71,21 +71,19 @@
     android:id="@+id/whatFamilyText"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
     android:layout_marginTop="16dp"
     android:text="TextView"
     android:textSize="16sp"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/activeFamilyGroupsRecyclerView"
-    android:layout_width="0dp"
+    android:layout_width="372dp"
     android:layout_height="330dp"
-    android:layout_marginStart="8dp"
     android:padding="2dp"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/whatFamilyText"
     tools:listitem="@layout/group_recycler_item" />

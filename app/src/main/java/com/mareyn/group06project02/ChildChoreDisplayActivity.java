@@ -83,6 +83,7 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
       adapter2.submitList(chores);
     });
 
+    // Moves chore from active status to Complete
     binding.choreCompletionButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -95,6 +96,7 @@ public class ChildChoreDisplayActivity extends AppCompatActivity {
       }
     });
 
+    // Goes back to Landing Page
     binding.goBackButton.setOnClickListener(view -> {
       var user = getIntent().getStringExtra(CHILD_DISPLAY_PREVIOUS_USERNAME);
       var id = getIntent().getIntExtra(CHILD_DISPLAY_PREVIOUS_USER_ID, -1);
