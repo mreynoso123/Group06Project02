@@ -8,16 +8,16 @@
   tools:context=".LoginActivity"
   android:background="@color/light_purple">
 
-  <androidx.fragment.app.Fragment
-    android:id="@+id/fragment_container_view"
-    android:name="com.mareyn.group06project02.UserFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:layout="@layout/user_fragment" />
+  <!--  <androidx.fragment.app.Fragment-->
+  <!--    android:id="@+id/fragment_container_view"-->
+  <!--    android:name="com.mareyn.group06project02.UserFragment"-->
+  <!--    android:layout_width="match_parent"-->
+  <!--    android:layout_height="match_parent"-->
+  <!--    android:layout_marginStart="8dp"-->
+  <!--    android:layout_marginTop="8dp"-->
+  <!--    app:layout_constraintStart_toStartOf="parent"-->
+  <!--    app:layout_constraintTop_toTopOf="parent"-->
+  <!--    tools:layout="@layout/user_fragment" />-->
 
   <TextView
     android:id="@+id/titleLoginTextView"
@@ -60,7 +60,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.875"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/groupSpinner" />
+    app:layout_constraintTop_toBottomOf="@+id/userNameLoginEditText" />
 
   <TextView
     android:id="@+id/createAccount"
@@ -90,7 +90,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     android:visibility="gone"
-    app:layout_constraintTop_toBottomOf="@id/passwordLoginEditText" />
+    app:layout_constraintTop_toBottomOf="@id/groupSpinner" />
 
   <Switch
     android:id="@+id/adminSwitch"
@@ -158,8 +158,7 @@
     android:visibility="invisible"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/userNameLoginEditText" />
-
+    app:layout_constraintTop_toBottomOf="@+id/passwordLoginEditText" />
 
   <!--  <Spinner-->
   <!--    android:id="@+id/spinner"-->
