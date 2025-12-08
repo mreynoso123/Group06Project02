@@ -8,6 +8,17 @@
   tools:context=".LoginActivity"
   android:background="@color/light_purple">
 
+  <androidx.fragment.app.Fragment
+    android:id="@+id/fragment_container_view"
+    android:name="com.mareyn.group06project02.UserFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:layout="@layout/user_fragment" />
+
   <TextView
     android:id="@+id/titleLoginTextView"
     android:layout_width="match_parent"

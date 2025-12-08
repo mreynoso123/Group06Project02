@@ -101,11 +101,14 @@ dependencies {
   testImplementation(libs.junit)
   androidTestImplementation(libs.ext.junit)
   androidTestImplementation(libs.espresso.core)
-  
+
   // adding this line for espresso tests
   androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
 
   val room_version = "2.8.3"
   implementation("androidx.room:room-runtime:${room_version}")
   annotationProcessor("androidx.room:room-compiler:$room_version")
+
+  val fragment_version = "1.8.9"
+  implementation("androidx.fragment:fragment:${fragment_version}")
 }
