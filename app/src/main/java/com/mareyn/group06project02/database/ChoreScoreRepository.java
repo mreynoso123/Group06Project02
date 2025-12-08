@@ -128,7 +128,9 @@ public class ChoreScoreRepository {
   }
 
   public void deleteUserByUsername(String username) {
-    userDAO.deleteUserByUsername(username);
+    ChoreScoreDatabase.databaseWriteExecutor.execute(() -> {
+      userDAO.deleteUserByUsername(username);
+    });
   }
 
   public void deleteUser(User user) {
