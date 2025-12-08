@@ -9,8 +9,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -27,6 +29,8 @@ import com.mareyn.group06project02.database.ChoreScoreRepository;
 import com.mareyn.group06project02.database.entities.Group;
 import com.mareyn.group06project02.database.entities.User;
 import com.mareyn.group06project02.databinding.ActivityLoginBinding;
+
+import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -121,6 +125,24 @@ public class LoginActivity extends AppCompatActivity {
       }
     });
 
+    // this is for the group spinner
+    Spinner spinner = binding.groupSpinner;
+    repository.getAllGroups().observe(this, groups -> {
+      var options = new ArrayList<String>();
+      for (var group : groups) {
+        options.add(group.getName());
+      }
+      ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        this,
+        android.R.layout.simple_spinner_item,
+        options
+      );
+      // Specify the layout to use when the list of choices appears.
+      adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+      // Apply the adapter to the spinner.
+      spinner.setAdapter(adapter);
+    });
+
     // this is for the create account text
     binding.createAccount.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -130,6 +152,8 @@ public class LoginActivity extends AppCompatActivity {
           hiddenSwitch.setVisibility(View.VISIBLE);
           hiddenCreateButton.setVisibility((View.VISIBLE));
           hideLoginButton.setVisibility(View.GONE);
+
+          binding.groupSpinner.setVisibility(View.VISIBLE);
 
           binding.createButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -151,11 +175,15 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                   }
 
-                  var newUser = new User(defaultGroupId, newUsername, newPassword, newEmailAddress, isAdmin);
-                  repository.insertUser(newUser);
-                  toastMaker("Account created for " + newUsername);
-                  Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
-                  startActivity(intent);
+                  var groupName = spinner.getSelectedItem().toString();
+                  Log.e(ChoreLogger.ID, "CREATING ACCOUNT");
+                  repository.getGroupByName(groupName, group -> {
+                    var newUser = new User(group.getGroupId(), newUsername, newPassword, newEmailAddress, isAdmin);
+                    repository.insertUser(newUser);
+                    toastMaker("Account created for " + newUsername);
+                    Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
+                    startActivity(intent);
+                  });
                 });
               });
 
@@ -168,6 +196,7 @@ public class LoginActivity extends AppCompatActivity {
           hiddenSwitch.setVisibility(View.GONE);
           hiddenCreateButton.setVisibility(View.GONE);
           hideLoginButton.setVisibility(View.VISIBLE);
+          binding.groupSpinner.setVisibility(View.GONE);
         }
       }
     });

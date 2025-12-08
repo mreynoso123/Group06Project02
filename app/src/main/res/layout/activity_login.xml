@@ -8,6 +8,17 @@
   tools:context=".LoginActivity"
   android:background="@drawable/gradient_background">
 
+  <!--  <androidx.fragment.app.Fragment-->
+  <!--    android:id="@+id/fragment_container_view"-->
+  <!--    android:name="com.mareyn.group06project02.UserFragment"-->
+  <!--    android:layout_width="match_parent"-->
+  <!--    android:layout_height="match_parent"-->
+  <!--    android:layout_marginStart="8dp"-->
+  <!--    android:layout_marginTop="8dp"-->
+  <!--    app:layout_constraintStart_toStartOf="parent"-->
+  <!--    app:layout_constraintTop_toTopOf="parent"-->
+  <!--    tools:layout="@layout/user_fragment" />-->
+
   <TextView
     android:id="@+id/titleLoginTextView"
     android:layout_width="match_parent"
@@ -40,14 +51,31 @@
     android:layout_width="match_parent"
     android:layout_height="75dp"
     android:layout_margin="16dp"
+    android:layout_marginTop="16dp"
     android:autofillHints="Please enter password"
     android:gravity="center"
     android:hint="@string/password"
     android:inputType="textPassword"
     android:textSize="24sp"
     app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.875"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/userNameLoginEditText" />
+
+  <TextView
+    android:id="@+id/createAccount"
+    android:layout_width="100dp"
+    android:layout_height="50dp"
+    android:layout_margin="0dp"
+    android:layout_marginTop="8dp"
+    android:gravity="center"
+    android:text="@string/create_account"
+    android:textColor="@android:color/holo_blue_dark"
+    android:textSize="12sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.086"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/adminSwitch" />
 
   <EditText
     android:id="@+id/hiddenEmailAddressEditText"
@@ -62,7 +90,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     android:visibility="gone"
-    app:layout_constraintTop_toBottomOf="@id/passwordLoginEditText" />
+    app:layout_constraintTop_toBottomOf="@id/groupSpinner" />
 
   <Switch
     android:id="@+id/adminSwitch"
@@ -84,12 +112,29 @@
     android:layout_width="150dp"
     android:layout_height="70dp"
     android:layout_margin="32dp"
+    android:layout_marginTop="152dp"
     android:text="@string/login"
     android:textSize="24sp"
     android:visibility="visible"
     app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.498"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/hiddenEmailAddressEditText" />
+
+  <TextView
+    android:id="@+id/forgotPassword"
+    android:layout_width="100dp"
+    android:layout_height="50dp"
+    android:layout_margin="0dp"
+    android:layout_marginTop="120dp"
+    android:gravity="center"
+    android:text="@string/forgot_password"
+    android:textColor="@android:color/holo_blue_dark"
+    android:textSize="12sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.948"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/adminSwitch" />
 
   <Button
     android:id="@+id/createButton"
@@ -103,34 +148,17 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/hiddenEmailAddressEditText" />
 
-
-  <TextView
-    android:id="@+id/createAccount"
-    android:layout_width="100dp"
-    android:layout_height="50dp"
-    android:layout_margin="0dp"
-    android:gravity="center"
-    android:text="@string/create_account"
-    android:textColor="@android:color/holo_blue_dark"
-    android:textSize="12sp"
+  <Spinner
+    android:id="@+id/groupSpinner"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="16dp"
+    android:visibility="invisible"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.05"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/adminSwitch" />
-
-  <TextView
-    android:id="@+id/forgotPassword"
-    android:layout_width="100dp"
-    android:layout_height="50dp"
-    android:layout_margin="0dp"
-    android:gravity="center"
-    android:text="@string/forgot_password"
-    android:textColor="@android:color/holo_blue_dark"
-    android:textSize="12sp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.95"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/adminSwitch" />
+    app:layout_constraintTop_toBottomOf="@+id/passwordLoginEditText" />
 
   <!--  <Spinner-->
   <!--    android:id="@+id/spinner"-->
