@@ -6,7 +6,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context=".ParentChoreDisplayActivity"
-  android:background="@color/light_purple">
+  android:background="@drawable/gradient_background">
 
   <TextView
     android:id="@+id/createNewChoreTextView"
@@ -178,10 +178,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="Go Back"
-    app:layout_constraintBottom_toTopOf="@+id/allActiveChoresTextView"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.498"
-    app:layout_constraintStart_toStartOf="parent" />
+    android:layout_marginStart="4dp"
+    android:layout_marginTop="4dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -97,6 +97,9 @@ dependencies {
   implementation(libs.activity)
   implementation(libs.constraintlayout)
   implementation("com.squareup.retrofit2:retrofit:2.10.0")
+  implementation("com.squareup.retrofit2:converter-jackson:2.10.0")
+  implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
   implementation("example.openapitools:retrofit-client:1.0.0")
   testImplementation(libs.junit)
   androidTestImplementation(libs.ext.junit)
@@ -104,6 +107,8 @@ dependencies {
 
   // adding this line for espresso tests
   androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
+  androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
+  androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
   val room_version = "2.8.3"
   implementation("androidx.room:room-runtime:${room_version}")
