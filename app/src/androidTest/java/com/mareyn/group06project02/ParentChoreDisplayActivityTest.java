@@ -44,7 +44,6 @@ public class ParentChoreDisplayActivityTest {
 
   @Test
   public void clickToChoreDisplay_startParentChoreDisplay() {
-
     repository = ChoreScoreRepository.getRepository(ApplicationProvider.getApplicationContext());
 
     ChoreScoreDatabase ChoreScoreDB = ChoreScoreDatabase.getDatabase(ApplicationProvider.getApplicationContext());
