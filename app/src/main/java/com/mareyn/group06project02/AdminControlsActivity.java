@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,14 +22,19 @@ import com.mareyn.group06project02.viewHolders.ListUserDeleteViewModel;
 
 public class AdminControlsActivity extends AppCompatActivity {
   static private String ADMIN_CONTROLS_USER_ID = "ADMIN_CONTROLS_USER_ID";
+  static private String ADMIN_CONTROLS_USERNAME = "ADMIN_CONTROLS_USERNAME";
   private ActivityAdminControlsBinding binding;
-  private ChoreScoreRepository repository = ChoreScoreRepository.getRepository(getApplication());
+  private ChoreScoreRepository repository;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     binding = ActivityAdminControlsBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
+
+    repository = ChoreScoreRepository.getRepository(getApplication());
+    var userId = getIntent().getIntExtra(ADMIN_CONTROLS_USER_ID, -1);
+    var username = getIntent().getStringExtra(ADMIN_CONTROLS_USERNAME);
 
     EdgeToEdge.enable(this);
     ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -37,12 +43,13 @@ public class AdminControlsActivity extends AppCompatActivity {
       return insets;
     });
 
-    binding.backToLogin.setOnClickListener((view) -> {
-      var userId = getIntent().getIntExtra(ADMIN_CONTROLS_USER_ID, -1);
-      repository.getUserById2(userId).observe(this, user -> {
-        var intent = LandingPageActivity.landingPageActivityIntentFactory(getApplicationContext(), user.getUsername(), user.getUserId());
+    // Back to Landing Page
+    binding.backToLogin.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        var intent = LandingPageActivity.landingPageActivityIntentFactory(getApplicationContext(), username, userId);
         startActivity(intent);
-      });
+      }
     });
 
     var usersDeleteViewModel = new ViewModelProvider(this).get(ListUserDeleteViewModel.class);
@@ -54,7 +61,7 @@ public class AdminControlsActivity extends AppCompatActivity {
     });
     recyclerView.setAdapter(adapter);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    var userId = getIntent().getIntExtra(ADMIN_CONTROLS_USER_ID, -1);
+
     repository.getUserById2(userId).observe(this, (user) -> {
       repository.getNormalUsersByGroup(user.getFamilyId()).observe(this, users -> {
         adapter.submitList(users);
@@ -62,9 +69,10 @@ public class AdminControlsActivity extends AppCompatActivity {
     });
   }
 
-  static Intent adminControlsActivityIntentFactory(Context context, int userId) {
+  static Intent adminControlsActivityIntentFactory(Context context, String username, int userId) {
     Intent intent = new Intent(context, AdminControlsActivity.class);
     intent.putExtra(ADMIN_CONTROLS_USER_ID, userId);
+    intent.putExtra(ADMIN_CONTROLS_USERNAME, username);
     return intent;
   }
 }

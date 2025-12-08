@@ -107,6 +107,8 @@ dependencies {
 
   // adding this line for espresso tests
   androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
+  androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
+  androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
   val room_version = "2.8.3"
   implementation("androidx.room:room-runtime:${room_version}")
